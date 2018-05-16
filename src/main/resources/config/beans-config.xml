@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+		
+		<!-- Dao - Injection -->
+		<bean id="clientDao" class="dao.ClientDaoImpl"></bean>
+		<bean id="propDao" class="dao.ProprietaireDaoImpl"></bean>
+		
+		<!-- Client - Injection -->
+		<bean id="clientServices" class="service.ClientServiceImpl">
+			<property name="daoClient" ref="clientDao"></property>
+		</bean>		
+		<bean id="clientController" class="web.ClientController">
+			<property name="clientSrv" ref="clientServices"></property>
+		</bean>
+		
+		<!-- Proprietaire - Injection -->
+		<bean id="propServices" class="service.ProprietaireServiceImpl">
+			<property name="daoProp" ref="propDao"></property>
+		</bean>		
+		<bean id="propController" class="web.ProprietaireController">
+			<property name="propSrv" ref="propServices"></property>
+		</bean>
+
+		
+		
+
+		
+</beans>
