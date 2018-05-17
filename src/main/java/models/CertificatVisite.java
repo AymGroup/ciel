@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class CertificatVisite {
@@ -19,6 +21,10 @@ public class CertificatVisite {
 	private Date delivreLe;
 	@Column(nullable=false,length=15)
 	private Date dateExpiration;
+	
+	@ManyToOne
+	@JoinColumn(name="ID_VEHICULE")
+	private Vehicule vehicule;
 	
 	public CertificatVisite() {
 		super();
@@ -41,6 +47,12 @@ public class CertificatVisite {
 	}
 	public void setDateExpiration(Date dateExpiration) {
 		this.dateExpiration = dateExpiration;
+	}
+	public Vehicule getVehicule() {
+		return vehicule;
+	}
+	public void setVehicule(Vehicule vehicule) {
+		this.vehicule = vehicule;
 	}
 	public CertificatVisite(Date delivreLe, Date dateExpiration) {
 		super();

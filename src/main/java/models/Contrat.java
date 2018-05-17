@@ -2,38 +2,49 @@ package models;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 @Entity
 public class Contrat {
 
+	@Id
+	@GeneratedValue
+	@Column(name="ID_CONTRAT")
 	private Long id;
-	@Column(nullable=false)
+	//@Column(insertable = false, updatable = false)
+	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateDebut; 
-	private Date dateFin;
+	private String dateFin;
 	
-	@ManyToOne
+	private String reglement;
+	private String description;
+	private double tarif;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="ID")
 	private Proprietaire proprietaire;
 	
+	public Contrat() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
 	public Proprietaire getProprietaire() {
 		return proprietaire;
 	}
-
 	public void setProprietaire(Proprietaire proprietaire) {
 		this.proprietaire = proprietaire;
-	}
-
-	public Contrat() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Long getId() {
@@ -48,17 +59,37 @@ public class Contrat {
 	public void setDateDebut(Date dateDebut) {
 		this.dateDebut = dateDebut;
 	}
-	public Date getDateFin() {
+	public String getDateFin() {
 		return dateFin;
 	}
-	public void setDateFin(Date dateFin) {
+	public void setDateFin(String dateFin) {
 		this.dateFin = dateFin;
 	}
-	public Contrat(Date dateDebut, Date dateFin) {
+	public String getReglement() {
+		return reglement;
+	}
+	public void setReglement(String reglement) {
+		this.reglement = reglement;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public double getTarif() {
+		return tarif;
+	}
+	public void setTarif(double tarif) {
+		this.tarif = tarif;
+	}
+
+	public Contrat(String dateFin) {
 		super();
-		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 	}
+
+	
 	
 	
 	

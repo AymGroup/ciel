@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 
@@ -38,9 +39,10 @@ public class Proprietaire extends Person {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	
-	public Proprietaire(String nom, String prenom, String telephone, String civilite,String email) {
+
+	public Proprietaire(String nom, String prenom, String telephone, String civilite,String email,String assuranceAdherer) {
 		super(nom, prenom, telephone, civilite,email);
+		this.assuranceAdherer=assuranceAdherer;
 	}
 	
 }

@@ -19,20 +19,17 @@ public class Client extends Person {
     @JoinColumn(name="ID_ADDRESS")
 	private Address address;
 	
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
 	public Client() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
+	}
 	public String getNumPermis() {
 		return numPermis;
 	}

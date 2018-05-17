@@ -43,7 +43,7 @@ public class Vehicule {
 	private AddressVehicule addressVehicule;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn
+	@JoinColumn(name="ID")
 	private Proprietaire Proprietaire;
 	
 	@ManyToOne(cascade = CascadeType.ALL)

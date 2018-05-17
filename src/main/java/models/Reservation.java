@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -32,6 +33,14 @@ public class Reservation {
 	@OneToMany
 	@JoinColumn(name="ID_OPTION_RESERVATION")
 	private Set<OptionReservation> optionReservation;
+	
+	@OneToMany
+	@JoinColumn(name="ID_LIGNE_RESERVATION")
+	private Set<LigneReservation> ligneReservation;
+	
+	@ManyToOne
+	@JoinColumn(name="ID_PACK")
+	private Pack pack;
 	
 	public Reservation() {
 		super();
@@ -64,5 +73,17 @@ public class Reservation {
 	}
 	public void setOptionReservation(Set<OptionReservation> optionReservation) {
 		this.optionReservation = optionReservation;
+	}
+	public Set<LigneReservation> getLigneReservation() {
+		return ligneReservation;
+	}
+	public void setLigneReservation(Set<LigneReservation> ligneReservation) {
+		this.ligneReservation = ligneReservation;
+	}
+	public Pack getPack() {
+		return pack;
+	}
+	public void setPack(Pack pack) {
+		this.pack = pack;
 	}
 }
