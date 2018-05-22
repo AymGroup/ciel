@@ -8,7 +8,6 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import hibernate.utils.HibernateAnnotationUtil;
-import models.Client;
 import models.Contrat;
 import models.Proprietaire;
 
@@ -63,8 +62,16 @@ public class ContratDaoImpl implements IDao<Contrat> {
 
 	@Override
 	public Contrat getById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
+
+		Criteria cr = s.createCriteria(Contrat.class); 
+		cr.add(Restrictions.eq("id",new Long(id)));
+		Contrat contrat=(Contrat) cr.uniqueResult();
+		
+		if(contrat!=null){
+			return contrat;
+		}else
+			return null;
 	}
 
 	@Override

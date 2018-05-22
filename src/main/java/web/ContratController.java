@@ -1,9 +1,12 @@
 package web;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +15,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import models.Contrat;
 import models.Proprietaire;
@@ -129,6 +135,49 @@ public class ContratController {
 		}else
 			return "redirect:/contrat/getContrats";
 		
+	}
+	
+	/*@RequestMapping(path="/get")
+	@ResponseBody 
+	public String getContrat(@RequestParam(name="id")String id){
+		
+		String rep="N° Contrat :"+id;
+		System.out.println(rep);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		List<String> list = new ArrayList<String>();
+		list.add("List A");
+		list.add("List B");
+		list.add("List C");
+		list.add("List D");
+		list.add("List E");
+
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return json;
+	}*/
+	
+	
+	@RequestMapping(path="/get")
+	@ResponseBody 
+	public String getContrat(@RequestParam(name="id")String id,Model model){
+		String response="success Response !";
+		
+		Contrat contrat=contratSrv.getById(Long.parseLong(id));
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(contrat);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return json;
 	}
 	
 }

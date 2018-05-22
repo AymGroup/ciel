@@ -28,17 +28,39 @@
    
    <!-- JQuery validation -->
    
+   
+   <script type="text/javascript">
+   		$(document).ready(function(){    
+	    	$("#accord").hide();
+		});
+   </script>
+   
     <script>
 
     	 $(document).ready(function(){
     	      
-    	      $('#myform').validate({ // initialize the plugin
-    	          rules: {
-    	              
-    	          },
-    	          
-    	      });
-    	      
+    	      $('.getContrat').click(function(e){
+				  alert($(this).attr('href'));
+				  e.preventDefault();
+				  
+    	    	  $.ajax({
+    	              url : $(this).attr('href'),
+    	              success : function(data) {
+        	              
+        	            var result="";
+        	            datas = JSON.parse(data);
+        	            $("#nom").val(datas.proprietaire.nom);
+        	            $("#prenom").val(datas.reglement);
+        	            $("#tel").val(datas.proprietaire.telephone);
+        	            $("#civilite").val(datas.proprietaire.civilite);
+
+        	           $("#accord").show();
+        	            //$(".accordion").remove();
+    	                $('#result').html(data);
+    	              }
+    	          });
+    	    	  return false;
+        	  });  
     	 });
     </script>
     
@@ -122,7 +144,9 @@
                                		</div><!-- # card -->
                           </div><!-- # col-lg-12 -->
                       </div><!-- # Row -->
-                
+                	
+                	<p id="result" ></p>
+					<h3>${exist}</h3>
                 			<div class="row">
                                	<div class="col-lg-12">	
                                		<div class="card">	
@@ -143,6 +167,7 @@
 			                                                <th>Date du début du contrat</th>
 			                                                <th>Date de fin du contrat</th>
 			                                                <th>Tarif</th>
+			                                                <th>Actions +</th>
 			                                                <th>Opérations</th>
 			                                            </tr>
 			                                        </thead>
@@ -155,6 +180,10 @@
 			                                                <td>${contrat.dateDebut }</td>
 			                                                <td>${contrat.dateFin }</td>
 			                                                <td>${contrat.tarif }</td>
+			                                                <c:url var="url_get_contrat" value="/contrat/get?id=${contrat.id }" />
+			                                                <td>
+			                                                	<a class="getContrat" href="${url_get_contrat}">Voir</a>
+			                                                </td>
 			                                                
 			                                                <td>
 			                                               		<div class="dropdown">
@@ -178,7 +207,57 @@
                                 	</div><!-- # card -->
                                 </div><!-- # col-lg-12 -->
                             </div><!-- # Row -->
-                                		
+                            
+                            <div class="row">
+                            	<div class="col-lg-12">
+                            		<div id="accord" class="accordion">
+					                	<div class="card">
+					    					<div class="card-header" id="headingOne">
+											      <h5 class="mb-0">
+											        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+														Informations sur le propriétaire 
+											        </button>
+											      </h5>
+					    				   </div><br><br>
+					
+					    				<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+					      					<div class="card-body">
+					        					<form>
+						        					<div class="row">
+	                                            		<div class="col-md-6">
+						        							<div class="form-group">
+						        								<label>Nom :</label>
+						        								<input id="nom" type="text" class="form-control"/>
+						        							</div>
+						        						</div>
+						        						<div class="col-md-6">
+						        							<div class="form-group">
+						        								<label>Prénom :</label>
+						        								<input id="prenom" type="text" class="form-control"/>
+						        							</div>
+						        						</div>
+						        						<div class="col-md-6">
+						        							<div class="form-group">
+						        								<label>Téléphone :</label>
+						        								<input id="tel" type="text" class="form-control"/>
+						        							</div>
+						        						</div>
+						        						<div class="col-md-6">
+						        							<div class="form-group">
+						        								<label>Civilité :</label>
+						        								<input id="civilite" type="text" class="form-control"/>
+						        							</div>
+						        						</div>
+						        					</div>
+					        					</form>
+					      					</div><!-- # card-body -->
+					    				</div><!-- # collapseOne -->
+					  				</div><!-- # card -->
+					              </div><!-- # accordion -->
+                            	</div><!-- # col-lg-12 -->
+                            </div><!-- # Row -->
+                            
+                          	
                 <!-- End PAge Content -->
             </div>
             <!-- End Container fluid  -->

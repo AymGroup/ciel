@@ -50,8 +50,7 @@ public class ContratServiceImpl implements IService<Contrat> {
 	}
 	@Override
 	public Contrat getById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return daoContrat.getById(id);
 	}
 	@Override
 	public void remove(Long id) {
