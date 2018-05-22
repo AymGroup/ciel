@@ -17,3 +17,4 @@ jQuery.extend(jQuery.validator.messages, {
 	    max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
 	    min: jQuery.validator.format("Please enter a value greater than or equal to {0}.")
 	});
+

@@ -15,7 +15,7 @@
                             </ul> --> 
                         </li>
                         <li class="nav-label">Main Menu</li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-envelope"></i><span class="hide-menu">Réservations</span></a>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-paperclip"></i><span class="hide-menu">Réservations</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="#">Nouvelle réservation</a></li>
                                 <li><a href="#">Mon planning</a></li>
@@ -24,14 +24,14 @@
                                 <li><a href="#">Liste des impayés</a></li>
                             </ul>
                         </li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-bar-chart"></i><span class="hide-menu">Catégories</span></a>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-folder-open"></i><span class="hide-menu">Catégories</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="chart-flot.html">Nouvelle catégorie</a></li>
                                 <li><a href="chart-morris.html">Liste des catégories</a></li>
                             
                             </ul>
                         </li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-bar-chart"></i><span class="hide-menu">Véhicules</span></a>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-road"></i><span class="hide-menu">Véhicules</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="#">Nouvelle véhicule</a></li>
                                 <li><a href="#">Véhicule en service</a></li>
@@ -43,24 +43,32 @@
                         <!-- CLIENT MENU -->
                         <c:url value="/client/nouveau" var="url_client"></c:url>
                         <li class="nav-label">Main Menu</li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-suitcase"></i><span class="hide-menu">Client</span></a>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-user"></i><span class="hide-menu">Client</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="${url_client }">Nouveau client</a></li>
                                 <li><a href="#">Liste des clients</a></li>
                             </ul>
                         </li>
-						<li> <a href="#" aria-expanded="false"><i class="fa fa-suitcase"></i><span class="hide-menu">Widgets</span></a>
-						
+
                         <!-- PROPRIETAIRE MENU -->
                         <c:url value="/proprietaire/nouveau" var="url_prop"></c:url>    
-                        </li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-wpforms"></i><span class="hide-menu">Propriétaires</span></a>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-user"></i><span class="hide-menu">Propriétaires</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="${url_prop }">Nouveau propriétaire</a></li>
                                 <li><a href="form-layout.html">Liste des propriétaire</a></li>
                             
                             </ul>
                         </li>
+                        
+                        <!-- CONTRAT MENU -->
+                        <c:url value="/contrat/nouveau" var="url_contrat"></c:url>  
+						<li> <a href="#" aria-expanded="false"><i class="fa fa-suitcase"></i><span class="hide-menu">Contrat propriétaire</span></a>
+							<ul aria-expanded="false" class="collapse">
+                                <li><a href="${url_contrat }">Nouveau contrat</a></li>
+                                <li><a href="form-layout.html">Liste des contrats</a></li>
+                            </ul>
+						</li>
+                        
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-table"></i><span class="hide-menu">Tables</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="table-bootstrap.html">Basic Tables</a></li>

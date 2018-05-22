@@ -2,11 +2,15 @@ package dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 import hibernate.utils.HibernateAnnotationUtil;
+import models.Client;
 import models.Contrat;
+import models.Proprietaire;
 
 public class ContratDaoImpl implements IDao<Contrat> {
 
@@ -33,8 +37,11 @@ public class ContratDaoImpl implements IDao<Contrat> {
 
 	@Override
 	public List<Contrat> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
+		Criteria cr = s.createCriteria(Contrat.class);
+		List<Contrat> results = cr.list();
+		
+		return results;
 	}
 
 	@Override
@@ -44,9 +51,14 @@ public class ContratDaoImpl implements IDao<Contrat> {
 	}
 
 	@Override
-	public List<Contrat> selectAll(String sortField, String sort) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Contrat> selectAll(String sortField, String idProprietaire) {
+		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
+
+		Criteria cr = s.createCriteria(Contrat.class); 
+		cr.add(Restrictions.eq("proprietaire.id",Long.parseLong(idProprietaire)));
+		List<Contrat> results = cr.list();
+		
+		return results;
 	}
 
 	@Override

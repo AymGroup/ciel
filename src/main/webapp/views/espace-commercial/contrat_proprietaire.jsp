@@ -122,7 +122,7 @@
 										    
 										  </c:otherwise>
 								   </c:choose>
-								   <!-- # End Alert -->
+								   <!-- # End Alert -->							   
 									
                                         <h3 class="card-title m-t-15">Nouveau contrat</h3>
                                         <hr>
@@ -165,8 +165,12 @@
                                                     <label>Proprietaire</label>
                                                     <f:select path="proprietaire.id" class="form-control custom-select">
                                                         <f:option selected="selected" value="" readonly="true" disabled="true">--Choisissez le propriétaire --</f:option>
-                                                        <f:option value="casablanca">Aymen MANKARI</f:option>
-                                                        <f:option value="rabat">Saad ZAYNOUNE</f:option>                                                     
+                                                        
+                                                        <c:forEach var="proprietaire"  items="${proprietaires}">
+                                                        	<f:option value="${proprietaire.id }">${proprietaire.nom} ${proprietaire.prenom}</f:option>
+                                                        </c:forEach>
+                                                        
+                                                                                                            
                                                     </f:select>
                                                 </div>
                                             </div>
@@ -177,7 +181,7 @@
                                         <h3 class="box-title m-t-40">Règlement</h3>
                                         <hr>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label></label>
                                                     <f:textarea path="reglement" class="form-control" cols="50" rows="10" style="height:300px"></f:textarea>

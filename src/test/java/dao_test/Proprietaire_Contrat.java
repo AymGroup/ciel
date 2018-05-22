@@ -1,6 +1,7 @@
 package dao_test;
 
 import java.util.Date;
+import java.util.List;
 
 import dao.ContratDaoImpl;
 import dao.IDao;
@@ -13,12 +14,16 @@ public class Proprietaire_Contrat {
 		
 		IDao<Contrat> daoContrat=new ContratDaoImpl();
 		
-		Proprietaire p=new Proprietaire("Aymen","Mankari","0654781","Monsieurs","aymen@gmail.com","Zenith");
+		/*Proprietaire p=new Proprietaire("Aymen","Mankari","0654781","Monsieurs","aymen@gmail.com","Zenith");
 		Contrat c=new Contrat(new Date());
 		
 		c.setProprietaire(p);
 		
-		daoContrat.save(c);
+		daoContrat.save(c);*/
+		
+		List<Contrat> contrats= daoContrat.selectAll(null, "1");
+		
+		System.out.println(contrats);
 		
 		
 	}

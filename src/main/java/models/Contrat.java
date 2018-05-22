@@ -31,7 +31,7 @@ public class Contrat {
 	private String description;
 	private double tarif;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="ID")
 	private Proprietaire proprietaire;
 	

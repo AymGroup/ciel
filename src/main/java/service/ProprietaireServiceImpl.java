@@ -41,8 +41,7 @@ public class ProprietaireServiceImpl implements IService<Proprietaire> {
 
 	@Override
 	public List<Proprietaire> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return daoProp.selectAll();
 	}
 
 	@Override
@@ -53,8 +52,7 @@ public class ProprietaireServiceImpl implements IService<Proprietaire> {
 
 	@Override
 	public Proprietaire getById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return daoProp.getById(id);
 	}
 
 	@Override

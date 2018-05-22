@@ -6,6 +6,7 @@
 		<!-- Dao - Injection -->
 		<bean id="clientDao" class="dao.ClientDaoImpl"></bean>
 		<bean id="propDao" class="dao.ProprietaireDaoImpl"></bean>
+		<bean id="contratDao" class="dao.ContratDaoImpl"></bean>
 		
 		<!-- Client - Injection -->
 		<bean id="clientServices" class="service.ClientServiceImpl">
@@ -21,6 +22,15 @@
 		</bean>		
 		<bean id="propController" class="web.ProprietaireController">
 			<property name="propSrv" ref="propServices"></property>
+		</bean>
+		
+		<!-- Contrat - Injection -->
+		<bean id="contratServices" class="service.ContratServiceImpl">
+			<property name="daoContrat" ref="contratDao"></property>
+		</bean>		
+		<bean id="contratController" class="web.ContratController">
+			<property name="contratSrv" ref="contratServices"></property>
+			<property name="proprietaireSrv" ref="propServices"></property>
 		</bean>
 
 		
