@@ -44,9 +44,27 @@ public class ContratDaoImpl implements IDao<Contrat> {
 	}
 
 	@Override
-	public Contrat update(Contrat o) {
-		// TODO Auto-generated method stub
-		return null;
+	public Contrat update(Contrat c) {
+		Boolean rep=false;
+		
+		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
+		Transaction tx=null;
+		try {
+			tx=s.beginTransaction();
+			s.saveOrUpdate(c);
+			//s.update(c);
+			tx.commit();
+			rep=true;
+		}catch(Exception e) {
+			if (tx!=null) tx.rollback();
+			   e.printStackTrace(); 
+			rep=false;
+		}finally {
+			s.close();
+		}
+		
+		if(!rep)return c;
+			else return null;
 	}
 
 	@Override

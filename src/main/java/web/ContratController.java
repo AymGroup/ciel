@@ -1,5 +1,7 @@
 package web;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,7 +52,7 @@ public class ContratController {
 	}
 	
 	@RequestMapping(path="/nouveau",method=RequestMethod.GET)
-	public String addClient(Model model) {
+	public String addContrat(Model model) {
 		
 		if(proprietaires==null || proprietaires.isEmpty() ) {
 			proprietaires=proprietaireSrv.selectAll();
@@ -74,6 +76,7 @@ public class ContratController {
 		
 		if(!rep){
 			response="error";
+			model.addAttribute("proprietaires",proprietaires);
 			model.addAttribute("response", response);
 			model.addAttribute("contrat", new Contrat());
 			return "espace-commercial/contrat_proprietaire";
@@ -83,8 +86,8 @@ public class ContratController {
 			model.addAttribute("contrat", new Contrat());
 		}
 		
-		return "espace-commercial/contrat_proprietaire";
-		
+		//return "espace-commercial/contrat_proprietaire";
+		return "redirect:/contrat/getContrats";
 	}
 	
 	/**
@@ -125,7 +128,10 @@ public class ContratController {
 			
 			List<Contrat> contrats=contratSrv.selectAll(null,id);
 			
-			proprietaire=contrats.stream().map(p->p.getProprietaire().getNom().toUpperCase()+ " " +p.getProprietaire().getPrenom()).collect(Collectors.joining(", "));
+			//proprietaire=contrats.stream().distinct().map(p->p.getProprietaire().getNom().toUpperCase()+ " " +p.getProprietaire().getPrenom()).collect(Collectors.joining(", "));
+			List<String>proprietairesMapped=contrats.stream().map(p->p.getProprietaire().getNom().toUpperCase()+ " " +p.getProprietaire().getPrenom()).collect(Collectors.toList());
+			proprietaire = proprietairesMapped.get(0);
+			
 			
 			model.addAttribute("prop",proprietaire);
 			model.addAttribute("contrat",new Contrat());
@@ -178,6 +184,49 @@ public class ContratController {
 		}
 
 		return json;
+	}
+	
+	@RequestMapping(path="/edit")
+	@ResponseBody 
+	public String editContrat(@RequestParam(name="id")String id,HttpServletRequest request){
+		
+		String response="It's the Edit methode !";
+		Contrat contrat=new Contrat();
+       
+        String json = "";
+        try {
+        	BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+        	if(br != null){
+                json = br.readLine();
+                
+                // # initiate jackson mapper
+                ObjectMapper mapper = new ObjectMapper();
+                
+                // # Convert received JSON to Contrat
+                contrat = mapper.readValue(json, Contrat.class);
+                
+                // # Set Contrat id for updating
+                contrat.setId(Long.parseLong(id));
+                
+                // # Get contrat before updating
+                Contrat oldContrat=contratSrv.getById(Long.parseLong(id));
+                
+                // # Set Date Debut & Proprietaire for the updating contrat
+                contrat.setDateDebut(oldContrat.getDateDebut());
+                contrat.setProprietaire(oldContrat.getProprietaire());
+                Contrat contratUpdated=contratSrv.update(contrat);
+                
+                System.out.println(contratUpdated);
+                
+            }
+        	
+        	
+        }catch(Exception ex) {
+        	ex.printStackTrace();
+        }
+        
+        System.out.println(contrat.getDescription());
+		return response;
 	}
 	
 }

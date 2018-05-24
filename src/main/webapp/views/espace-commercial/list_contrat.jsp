@@ -31,7 +31,7 @@
    
    <script type="text/javascript">
    		$(document).ready(function(){    
-	    	$("#accord").hide();
+	    	$("#infoShow").hide();
 		});
    </script>
    
@@ -40,7 +40,7 @@
     	 $(document).ready(function(){
     	      
     	      $('.getContrat').click(function(e){
-				  alert($(this).attr('href'));
+				  //alert($(this).attr('href'));
 				  e.preventDefault();
 				  
     	    	  $.ajax({
@@ -49,18 +49,59 @@
         	              
         	            var result="";
         	            datas = JSON.parse(data);
+        	            $("#idContrat").val(datas.id);
+        	            $("#desc").val(datas.description);
+        	            $("#dateFin").val(datas.dateFin);
+        	            $("#tarif").val(datas.tarif);
+        	            $("#reglement").val(datas.reglement);
         	            $("#nom").val(datas.proprietaire.nom);
         	            $("#prenom").val(datas.reglement);
         	            $("#tel").val(datas.proprietaire.telephone);
         	            $("#civilite").val(datas.proprietaire.civilite);
+        	            $("#email").val(datas.proprietaire.email);
+        	            $("#assurance").val(datas.proprietaire.assuranceAdherer);
 
-        	           $("#accord").show();
+        	           	$("#infoShow").show();
         	            //$(".accordion").remove();
-    	                $('#result').html(data);
-    	              }
+    	                //$('#result').html(data);
+    	              },
+    	    	  	  error: function(response) {
+    	              	alert("An error occurred !");
+    	            	// terminate the script
+    	          	  }
     	          });
     	    	  return false;
-        	  });  
+        	  });
+    	      
+    	   	  // this is the id of the form
+    	      $("#myform").submit(function(e) {
+    	    	  var idContrat = $('#idContrat').val();
+    	    	  alert("Form submited succesfuly !"+ idContrat);
+    	          var url = "/car_rental/contrat/edit?id="+idContrat; // the script where you handle the form input.
+					
+    	       	 // get inputs
+    	          var contrat = new Object();
+    	          contrat.description = $('#desc').val();
+    	          contrat.dateFin = $('#dateFin').val();
+    	          contrat.tarif = $('#tarif').val();
+    	          contrat.reglement = $('#reglement').val();
+    	          
+    	          $.ajax({
+    	                 type: "POST",
+    	                 url: url,
+    	                 //data: $("#myform").serialize(), // serializes the form's elements.
+    	                 dataType: 'json',
+    	                 data: JSON.stringify(contrat),
+    	                 contentType: 'application/json',
+    	                 mimeType: 'application/json',
+    	                 success: function(data)
+    	                 {
+    	                     alert(data); // show response 
+    	                 }
+    	               });
+
+    	          e.preventDefault(); // avoid to execute the actual submit of the form.
+    	      });
     	 });
     </script>
     
@@ -115,6 +156,29 @@
                     <div class="col-lg-12">
                                  <div class="card">
                             		<div class="card-body">
+		                            		<!-- Alert messages -->
+											<c:choose>
+												  <c:when test="${response =='error'}">
+												    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+								  						<strong>Error !</strong> You should check in on some of those fields below.
+								  						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								    						<span aria-hidden="true">&times;</span>
+								  						</button>
+													</div>
+												  </c:when>
+												  <c:when test="${response =='success'}">
+												    <div class="alert alert-success alert-dismissible fade show" role="alert">
+								  						<strong>Success !</strong> You should check in on some of those fields below.
+								  						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								    						<span aria-hidden="true">&times;</span>
+								  						</button>
+													</div>
+												  </c:when>
+												  <c:otherwise>
+												    
+												  </c:otherwise>
+										   </c:choose>
+										   <!-- # End Alert -->			
                                 		<h4 class="card-title">Recherche contrats par propriétaires</h4>
                                			<hr>      			
                                				<div class="col-lg-6">
@@ -167,7 +231,7 @@
 			                                                <th>Date du début du contrat</th>
 			                                                <th>Date de fin du contrat</th>
 			                                                <th>Tarif</th>
-			                                                <th>Actions +</th>
+			                                                
 			                                                <th>Opérations</th>
 			                                            </tr>
 			                                        </thead>
@@ -180,17 +244,15 @@
 			                                                <td>${contrat.dateDebut }</td>
 			                                                <td>${contrat.dateFin }</td>
 			                                                <td>${contrat.tarif }</td>
-			                                                <c:url var="url_get_contrat" value="/contrat/get?id=${contrat.id }" />
-			                                                <td>
-			                                                	<a class="getContrat" href="${url_get_contrat}">Voir</a>
-			                                                </td>
 			                                                
+			                                                <!-- View Détails -->
+			                                                <c:url var="url_get_contrat" value="/contrat/get?id=${contrat.id }" />
 			                                                <td>
 			                                               		<div class="dropdown">
 								                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Actions
 																			<span class="caret"></span></button>
 								                                    <ul class="dropdown-menu">
-								                                        <li><i class="fa fa-eye"></i><a href="#"> View</a></li>
+								                                        <li><i class="fa fa-eye"></i><a class="getContrat" href="${url_get_contrat}"> View</a></li>
 								                                        <li><i class="fa fa-pencil"></i><a href="#"> Edit</a></li>
 								                                        <li><i class="fa fa-trash"></i><a href="#"> Delete</a></li>
 								                                    </ul>
@@ -207,55 +269,105 @@
                                 	</div><!-- # card -->
                                 </div><!-- # col-lg-12 -->
                             </div><!-- # Row -->
-                            
-                            <div class="row">
-                            	<div class="col-lg-12">
-                            		<div id="accord" class="accordion">
-					                	<div class="card">
-					    					<div class="card-header" id="headingOne">
-											      <h5 class="mb-0">
-											        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-														Informations sur le propriétaire 
-											        </button>
-											      </h5>
-					    				   </div><br><br>
-					
-					    				<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-					      					<div class="card-body">
-					        					<form>
-						        					<div class="row">
-	                                            		<div class="col-md-6">
+                        
+                       <!-- Details Ajax -->
+                       <div id="infoShow">
+                          <div class="row">
+                    			<div class="col-lg-12">
+                        			<div class="card card-outline-primary">
+                            			<div class="card-body">
+                                			<f:form id="myform">
+                                   		 		<div class="form-body">
+                                   		 			<!-- # Contrat Détails -->
+                                   		 			<h3 class="card-title m-t-4">Détails contrat</h3>
+                                        			<hr>
+                                        			<div class="row">
+                                        				<div class="col-lg-6">
+						        							<div class="form-group">
+						        								<label>Description :</label>
+						        								<input id="desc" type="text" class="form-control"/>
+						        								<input id="idContrat" type="hidden">
+						        							</div>
+						        						</div>
+                                        				<div class="col-lg-6">
+						        							<div class="form-group">
+						        								<label>Date fin du contrat :</label>
+						        								<input id="dateFin" type="text" class="form-control"/>
+						        							</div>
+						        						</div>
+						        						<div class="col-lg-12">
+						        							<div class="form-group">
+						        								<label>Tarif :</label>
+						        								<input id="tarif" type="text" class="form-control"/>
+						        							</div>
+						        						</div>
+						        						<div class="col-lg-12">
+						        							<div class="form-group">
+						        								<label>Règlement :</label>
+						        								<textarea id="reglement" class="form-control" rows="10" cols="50" style="height:300px"></textarea>
+						        							</div>
+						        						</div>
+                                   		 			</div>
+                                   		 		</div><!-- # form-body -->
+                                   		 		<div class="form-actions">
+                                        			<button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Save</button>
+                                        			<button type="reset" class="btn btn-inverse">Cancel</button>
+                                    			</div>
+                                   		 	</f:form><!-- # myForm --><br>
+                                   		 			
+                                   		 			<!-- # Propriétaire Détails -->
+                                   		 			<h3 class="card-title m-t-4">Informations sur le propriétaire </h3>
+                                        			<hr>
+                                        			<div class="form-body">
+                                        			<div class="row">
+                                        				<div class="col-lg-6">
 						        							<div class="form-group">
 						        								<label>Nom :</label>
 						        								<input id="nom" type="text" class="form-control"/>
+						        								
 						        							</div>
 						        						</div>
-						        						<div class="col-md-6">
+						        						<div class="col-lg-6">
 						        							<div class="form-group">
 						        								<label>Prénom :</label>
 						        								<input id="prenom" type="text" class="form-control"/>
 						        							</div>
 						        						</div>
-						        						<div class="col-md-6">
+						        						<div class="col-lg-6">
 						        							<div class="form-group">
 						        								<label>Téléphone :</label>
 						        								<input id="tel" type="text" class="form-control"/>
 						        							</div>
 						        						</div>
-						        						<div class="col-md-6">
+						        						<div class="col-lg-6">
 						        							<div class="form-group">
 						        								<label>Civilité :</label>
 						        								<input id="civilite" type="text" class="form-control"/>
 						        							</div>
 						        						</div>
+						        						<div class="col-lg-6">
+						        							<div class="form-group">
+						        								<label>Email :</label>
+						        								<input id="email" type="text" class="form-control"/>
+						        							</div>
+						        						</div>
+						        						<div class="col-lg-6">
+						        							<div class="form-group">
+						        								<label>Assurance Adhérer :</label>
+						        								<input id="assurance" type="text" class="form-control"/>
+						        							</div>
+						        						</div>
 						        					</div>
-					        					</form>
-					      					</div><!-- # card-body -->
-					    				</div><!-- # collapseOne -->
-					  				</div><!-- # card -->
-					              </div><!-- # accordion -->
+						        						
+                                   		 		</div>
+                                   		 	
+                            			</div><!-- # card-body -->
+                            		</div><!-- # card card-outline-primary -->
                             	</div><!-- # col-lg-12 -->
-                            </div><!-- # Row -->
+                           </div><!-- # Row -->
+                       </div>
+                            
+                            
                             
                           	
                 <!-- End PAge Content -->

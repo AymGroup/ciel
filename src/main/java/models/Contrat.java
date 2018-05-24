@@ -13,8 +13,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
+//@DynamicUpdate(value=true)
 public class Contrat {
 
 	@Id

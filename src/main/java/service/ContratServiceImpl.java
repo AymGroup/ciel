@@ -36,9 +36,8 @@ public class ContratServiceImpl implements IService<Contrat> {
 		return rep;
 	}
 	@Override
-	public Contrat update(Contrat o) {
-		// TODO Auto-generated method stub
-		return null;
+	public Contrat update(Contrat c) {
+		return daoContrat.update(c);
 	}
 	@Override
 	public List<Contrat> selectAll() {
