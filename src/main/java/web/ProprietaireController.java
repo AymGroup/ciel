@@ -28,7 +28,7 @@ public class ProprietaireController {
 	}
 	
 	@RequestMapping(path="/nouveau",method=RequestMethod.GET)
-	public ModelAndView addClient(Model model) {
+	public ModelAndView addProprietaire(Model model) {
 		ModelAndView mv=new ModelAndView("espace-commercial/nouveau_proprietaire","proprietaire",new Proprietaire());
 		return mv;
 	}

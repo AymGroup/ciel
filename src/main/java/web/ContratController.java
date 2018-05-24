@@ -63,6 +63,13 @@ public class ContratController {
 		return "espace-commercial/contrat_proprietaire";
 	}
 	
+	/**
+	 * Save contrat.
+	 * @param model
+	 * @param contrat
+	 * @param result
+	 * @return
+	 */
 	@RequestMapping(path="/enregistrer",method=RequestMethod.POST)
 	public String addContrat(Model model,Contrat contrat,BindingResult result) {
 		String response="error";
@@ -75,18 +82,15 @@ public class ContratController {
 		boolean rep=contratSrv.save(contrat);
 		
 		if(!rep){
-			response="error";
 			model.addAttribute("proprietaires",proprietaires);
 			model.addAttribute("response", response);
 			model.addAttribute("contrat", new Contrat());
 			return "espace-commercial/contrat_proprietaire";
-		}else{
-			response="success";
-			model.addAttribute("response", response);
-			model.addAttribute("contrat", new Contrat());
 		}
 		
-		//return "espace-commercial/contrat_proprietaire";
+		// # It's success redirect to list contrats
+		response="success";
+		model.addAttribute("response", response);
 		return "redirect:/contrat/getContrats";
 	}
 	
@@ -105,6 +109,7 @@ public class ContratController {
 		List<Contrat> contrats=contratSrv.selectAll();
 		
 		model.addAttribute("contrat",new Contrat());
+		model.addAttribute("contrate",new Contrat());
 		model.addAttribute("proprietaires",proprietaires);
 		model.addAttribute("contrats",contrats);
 		return "espace-commercial/list_contrat";
@@ -119,7 +124,7 @@ public class ContratController {
 	@RequestMapping(path="/chercher")
 	public String searchContrat(Model model,@RequestParam(name="proprietaire.id") String id) {
 		
-		String proprietaire;
+		String proprietaire="";
 		
 		if(id=="" || !id.isEmpty()) {
 			if(proprietaires==null || proprietaires.isEmpty() ) {
@@ -130,11 +135,14 @@ public class ContratController {
 			
 			//proprietaire=contrats.stream().distinct().map(p->p.getProprietaire().getNom().toUpperCase()+ " " +p.getProprietaire().getPrenom()).collect(Collectors.joining(", "));
 			List<String>proprietairesMapped=contrats.stream().map(p->p.getProprietaire().getNom().toUpperCase()+ " " +p.getProprietaire().getPrenom()).collect(Collectors.toList());
-			proprietaire = proprietairesMapped.get(0);
 			
-			
+			if(!proprietairesMapped.isEmpty()){
+				proprietaire = proprietairesMapped.get(0);
+			}
+
 			model.addAttribute("prop",proprietaire);
 			model.addAttribute("contrat",new Contrat());
+			model.addAttribute("contrate",new Contrat());
 			model.addAttribute("proprietaires",proprietaires);
 			model.addAttribute("contrats",contrats);
 			return "espace-commercial/list_contrat";
@@ -168,11 +176,16 @@ public class ContratController {
 		return json;
 	}*/
 	
-	
+	/**
+	 * Get contrat by Ajax request
+	 * @param id    : id contrat
+	 * @param model
+	 * @return 
+	 */
 	@RequestMapping(path="/get")
 	@ResponseBody 
 	public String getContrat(@RequestParam(name="id")String id,Model model){
-		String response="success Response !";
+		//String response="success Response !";
 		
 		Contrat contrat=contratSrv.getById(Long.parseLong(id));
 		ObjectMapper mapper = new ObjectMapper();
@@ -186,9 +199,64 @@ public class ContratController {
 		return json;
 	}
 	
+	/**
+	 * Edit contrat
+	 * @param id      : id contrat
+	 * @param contrat : Contrat Object 
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(path="/edit")
-	@ResponseBody 
-	public String editContrat(@RequestParam(name="id")String id,HttpServletRequest request){
+	public String editContrat(@RequestParam(name="id")String id,Contrat contrat,Model model){
+		String response;
+		System.out.println(contrat.getDescription());
+		// # Get contrat before updating
+		
+		if(!id.isEmpty()){
+			Contrat oldContrat=contratSrv.getById(Long.parseLong(id));
+			
+			// # Set Date Debut & Proprietaire for the updating contrat
+	        contrat.setDateDebut(oldContrat.getDateDebut());
+	        contrat.setProprietaire(oldContrat.getProprietaire());
+	        Contrat contratUpdated=contratSrv.update(contrat);
+	        response="success";
+	        model.addAttribute("response_update", response);
+		}
+        
+		return "redirect:/contrat/getContrats";
+	}
+	
+	/**
+	 * Delete contrat
+	 * @param id    : id contrat
+	 * @param model 
+	 * @return
+	 */
+	@RequestMapping(path="/delete")
+	public String deleteContrat(@RequestParam(name="id")String id,Model model){
+		String response;
+		System.out.println("It's delete methode !"+ id);
+		
+		try{
+			contratSrv.remove(Long.parseLong(id));
+			response="success";
+			model.addAttribute("response_delete",response);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+		return "redirect:/contrat/getContrats";
+	}
+	
+	
+	/**
+	 * Edit contrat by Ajax request
+	 * @param id     : id contrat
+	 * @param request
+	 * @return
+	 */
+	/*@RequestMapping(path="/edit")
+	public String editContrat(@RequestParam(name="id")String id,HttpServletRequest request,Model model){
 		
 		String response="It's the Edit methode !";
 		Contrat contrat=new Contrat();
@@ -225,8 +293,18 @@ public class ContratController {
         	ex.printStackTrace();
         }
         
-        System.out.println(contrat.getDescription());
-		return response;
-	}
+
+		//return jsonList;
+        if(proprietaires==null || proprietaires.isEmpty() ) {
+			proprietaires=proprietaireSrv.selectAll();
+		}
+		
+		List<Contrat> contrats=contratSrv.selectAll();
+		
+		model.addAttribute("contrat",new Contrat());
+		model.addAttribute("proprietaires",proprietaires);
+		model.addAttribute("contrats",contrats);
+		return "espace-commercial/list_contrat";
+	}*/
 	
 }

@@ -94,7 +94,24 @@ public class ContratDaoImpl implements IDao<Contrat> {
 
 	@Override
 	public void remove(Long id) {
-		// TODO Auto-generated method stub
+		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
+		
+		Transaction tx=null;
+		try{
+			tx=s.beginTransaction();
+			Criteria cr = s.createCriteria(Contrat.class); 
+			cr.add(Restrictions.eq("id",new Long(id)));
+			Contrat contrat=(Contrat) cr.uniqueResult();
+			s.delete(contrat);
+			tx.commit();
+			
+		}catch(Exception ex){
+			if (tx!=null) tx.rollback();
+			ex.printStackTrace();
+			
+		}finally{
+			s.close();
+		}
 		
 	}
 

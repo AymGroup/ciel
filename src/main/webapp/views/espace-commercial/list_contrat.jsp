@@ -13,7 +13,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="<%=request.getContextPath() %>/resources/images/logo_car_rental.png">
-    <title>Nouveau client - EC</title>
+    <title>List contrats - Espace Commercial</title>
     <!-- Bootstrap Core CSS -->
     <link href="/car_rental/resources/css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -25,10 +25,7 @@
    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
    
    <script src="<%=request.getContextPath() %>/resources/js/scriptsJquery.js"></script>
-   
-   <!-- JQuery validation -->
-   
-   
+	
    <script type="text/javascript">
    		$(document).ready(function(){    
 	    	$("#infoShow").hide();
@@ -49,8 +46,8 @@
         	              
         	            var result="";
         	            datas = JSON.parse(data);
-        	            $("#idContrat").val(datas.id);
-        	            $("#desc").val(datas.description);
+        	            $("#id").val(datas.id);
+        	            $("#description").val(datas.description);
         	            $("#dateFin").val(datas.dateFin);
         	            $("#tarif").val(datas.tarif);
         	            $("#reglement").val(datas.reglement);
@@ -96,17 +93,30 @@
     	                 mimeType: 'application/json',
     	                 success: function(data)
     	                 {
-    	                     alert(data); // show response 
+    	                	 alert(data); // show response 
+    	                	 //var table = $('<table class="table table-bordered table-striped"/>').appendTo($('#someDiv'));
+
     	                 }
     	               });
-
-    	          e.preventDefault(); // avoid to execute the actual submit of the form.
+						return false;
+    	          e.preventDefault(); 
     	      });
     	 });
     </script>
     
+    <!-- Delete Confirmation -->
     <script type="text/javascript">
-    	
+	    $(document).ready(function(){
+	    	
+		      $('.deleteContrat').click(function(e){
+		    	  
+		    	  if (!confirm("are you sure?")) {
+			    	  console.log("Opération annulé");
+	                  return false;
+	              }
+	              return true;
+			  });
+	    });
     </script>
     
     <style type="text/css">
@@ -158,15 +168,23 @@
                             		<div class="card-body">
 		                            		<!-- Alert messages -->
 											<c:choose>
-												  <c:when test="${response =='error'}">
+												  <c:when test="${param.response_update=='success'}">
 												    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-								  						<strong>Error !</strong> You should check in on some of those fields below.
+								  						<strong>Updated !</strong> You should check in on some of those fields below.
 								  						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 								    						<span aria-hidden="true">&times;</span>
 								  						</button>
 													</div>
 												  </c:when>
-												  <c:when test="${response =='success'}">
+												  <c:when test="${param.response=='success'}">
+												    <div class="alert alert-success alert-dismissible fade show" role="alert">
+								  						<strong>Success !</strong> You should check in on some of those fields below.
+								  						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								    						<span aria-hidden="true">&times;</span>
+								  						</button>
+													</div>
+												  </c:when>
+												  <c:when test="${param.response_delete=='success'}">
 												    <div class="alert alert-success alert-dismissible fade show" role="alert">
 								  						<strong>Success !</strong> You should check in on some of those fields below.
 								  						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -209,8 +227,11 @@
                           </div><!-- # col-lg-12 -->
                       </div><!-- # Row -->
                 	
+                	<!-- Test -->
                 	<p id="result" ></p>
-					<h3>${exist}</h3>
+					<h3></h3>
+					<!-- # Test -->
+					
                 			<div class="row">
                                	<div class="col-lg-12">	
                                		<div class="card">	
@@ -231,7 +252,6 @@
 			                                                <th>Date du début du contrat</th>
 			                                                <th>Date de fin du contrat</th>
 			                                                <th>Tarif</th>
-			                                                
 			                                                <th>Opérations</th>
 			                                            </tr>
 			                                        </thead>
@@ -247,6 +267,7 @@
 			                                                
 			                                                <!-- View Détails -->
 			                                                <c:url var="url_get_contrat" value="/contrat/get?id=${contrat.id }" />
+			                                                <c:url var="url_delete_contrat" value="/contrat/delete?id=${contrat.id }" />
 			                                                <td>
 			                                               		<div class="dropdown">
 								                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Actions
@@ -254,7 +275,7 @@
 								                                    <ul class="dropdown-menu">
 								                                        <li><i class="fa fa-eye"></i><a class="getContrat" href="${url_get_contrat}"> View</a></li>
 								                                        <li><i class="fa fa-pencil"></i><a href="#"> Edit</a></li>
-								                                        <li><i class="fa fa-trash"></i><a href="#"> Delete</a></li>
+								                                        <li><i class="fa fa-trash"></i><a class="deleteContrat" href="${url_delete_contrat}"> Delete</a></li>
 								                                    </ul>
                                 								</div>
 			                                                </td>
@@ -276,7 +297,9 @@
                     			<div class="col-lg-12">
                         			<div class="card card-outline-primary">
                             			<div class="card-body">
-                                			<f:form id="myform">
+                            			
+                            				<c:url value="/contrat/edit" var ="urlEdit" />
+                                			<f:form id="myforme" modelAttribute="contrate" action="${urlEdit }">
                                    		 		<div class="form-body">
                                    		 			<!-- # Contrat Détails -->
                                    		 			<h3 class="card-title m-t-4">Détails contrat</h3>
@@ -285,32 +308,34 @@
                                         				<div class="col-lg-6">
 						        							<div class="form-group">
 						        								<label>Description :</label>
-						        								<input id="desc" type="text" class="form-control"/>
-						        								<input id="idContrat" type="hidden">
+						        								<!--<input id="desc" type="text" class="form-control"/>-->
+						        								<f:input path="description" class="form-control"  />
+						        								<!-- <input id="idContrat" type="hidden"> -->
+						        								<f:input path="id" type="hidden" />
 						        							</div>
 						        						</div>
                                         				<div class="col-lg-6">
 						        							<div class="form-group">
 						        								<label>Date fin du contrat :</label>
-						        								<input id="dateFin" type="text" class="form-control"/>
+						        								<f:input path="dateFin" type="date" class="form-control"  />
 						        							</div>
 						        						</div>
 						        						<div class="col-lg-12">
 						        							<div class="form-group">
 						        								<label>Tarif :</label>
-						        								<input id="tarif" type="text" class="form-control"/>
+						        								<f:input path="tarif" class="form-control"  />
 						        							</div>
 						        						</div>
 						        						<div class="col-lg-12">
 						        							<div class="form-group">
 						        								<label>Règlement :</label>
-						        								<textarea id="reglement" class="form-control" rows="10" cols="50" style="height:300px"></textarea>
+						        								<f:textarea path="reglement" class="form-control" cols="50" rows="10" style="height:300px"></f:textarea>
 						        							</div>
 						        						</div>
                                    		 			</div>
                                    		 		</div><!-- # form-body -->
                                    		 		<div class="form-actions">
-                                        			<button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Save</button>
+                                        			<button type="submit" class="btn btn-warning"> <i class="fa fa-check"></i> Edit</button>
                                         			<button type="reset" class="btn btn-inverse">Cancel</button>
                                     			</div>
                                    		 	</f:form><!-- # myForm --><br>
@@ -367,9 +392,6 @@
                            </div><!-- # Row -->
                        </div>
                             
-                            
-                            
-                          	
                 <!-- End PAge Content -->
             </div>
             <!-- End Container fluid  -->
