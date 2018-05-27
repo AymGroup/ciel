@@ -10,7 +10,7 @@ import models.AddressVehicule;
 
 public class AddressVehiculeDaoImpl implements IDao<AddressVehicule> {
 
-	public boolean save(AddressVehicule adrV) {
+	public AddressVehicule save(AddressVehicule adrV) {
 		boolean rep=false;
 		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
 		Transaction tx=null;
@@ -27,7 +27,8 @@ public class AddressVehiculeDaoImpl implements IDao<AddressVehicule> {
 			s.close();
 		}
 		
-		return rep;
+		if(rep)return adrV;
+		else return null;
 	}
 
 	public List<AddressVehicule> selectAll() {

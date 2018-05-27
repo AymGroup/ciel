@@ -23,41 +23,37 @@ public class ClientServiceImpl implements IService<Client> {
 		this.daoClient = daoClient;
 	}
 	@Override
-	public boolean save(Client c) {
-		boolean rep=false;
+	public Client save(Client c) {
+		Client client=null;
 		System.out.println("Service Client Class !");
 		
 		try{
-			rep=daoClient.save(c);
+			client=daoClient.save(c);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		
-		return rep;
+		return client;
 	}
 	@Override
-	public Client update(Client o) {
-		// TODO Auto-generated method stub
-		return null;
+	public Client update(Client c) {
+		return daoClient.update(c);
 	}
 	@Override
 	public List<Client> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return daoClient.selectAll();
 	}
 	@Override
 	public List<Client> selectAll(String sortField, String sort) {
-		// TODO Auto-generated method stub
-		return null;
+		return daoClient.selectAll(sortField,sort);
 	}
 	@Override
 	public Client getById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return daoClient.getById(id);
 	}
 	@Override
 	public void remove(Long id) {
-		// TODO Auto-generated method stub
+		daoClient.remove(id);
 		
 	}
 	@Override

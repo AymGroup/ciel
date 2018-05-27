@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface IDao<T> {
 
-	public boolean save(T o);
+	public T save(T o);
 	
 	public List<T> selectAll();
 	

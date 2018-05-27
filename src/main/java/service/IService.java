@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 public interface IService<T> {
 
-	public boolean save(T o);
+	public T save(T o);
 	
 	public T update(T o);
 

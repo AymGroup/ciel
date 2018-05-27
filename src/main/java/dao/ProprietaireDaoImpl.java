@@ -13,7 +13,7 @@ import models.Proprietaire;
 
 public class ProprietaireDaoImpl implements IDao<Proprietaire> {
 	
-	public boolean save(Proprietaire p) {
+	public Proprietaire save(Proprietaire p) {
 		boolean rep=false;
 		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
 		Transaction tx=null;
@@ -30,7 +30,8 @@ public class ProprietaireDaoImpl implements IDao<Proprietaire> {
 			s.close();
 		}
 		
-		return rep;
+		if(rep)return p;
+		else return null;
 	}
 
 	public List<Proprietaire> selectAll() {
@@ -60,7 +61,7 @@ public class ProprietaireDaoImpl implements IDao<Proprietaire> {
 			s.close();
 		}
 		
-		if(!rep)return p;
+		if(rep)return p;
 			else return null;
 	}
 

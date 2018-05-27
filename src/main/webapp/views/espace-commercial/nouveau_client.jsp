@@ -128,7 +128,7 @@
                             <div class="card-body">
                             
                             	<c:url value="/client/enregistrer" var ="urlEnregistrer" />
-                                <f:form id="myform" modelAttribute="client" action="${urlEnregistrer }">
+                                <f:form id="myform" modelAttribute="client" action="${urlEnregistrer }" enctype="multipart/form-data">
                                     <div class="form-body">
                                     
                                     <!-- Alert message -->
@@ -224,6 +224,12 @@
                                                     <label class="control-label">Référence permis de conduire</label>
                                                     <f:input path="numPermis" class="form-control"  />
                                                     
+                                                </div>
+                                             </div>
+                                             <div class="col-md-6">
+                                             	<div class="form-group">
+                                                    <label class="control-label">Upload image</label>
+                                                    <f:input type="file" path="userImage" id="userImage" name="userImage" class="form:input-large"/>
                                                 </div>
                                              </div>
                                         </div>

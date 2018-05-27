@@ -23,17 +23,17 @@ public class ContratServiceImpl implements IService<Contrat> {
 		this.daoContrat = daoContrat;
 	}
 	@Override
-	public boolean save(Contrat c) {
-		boolean rep=false;
+	public Contrat save(Contrat c) {
+		Contrat contrat=null;
 		System.out.println("Service Contrat Class !");
 		
 		try{
-			rep=daoContrat.save(c);
+			contrat=daoContrat.save(c);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		
-		return rep;
+		return contrat;
 	}
 	@Override
 	public Contrat update(Contrat c) {

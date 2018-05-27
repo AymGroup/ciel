@@ -10,7 +10,7 @@ import models.Vehicule;
 
 public class VehiculeDaoImpl implements IDao<Vehicule> {
 
-	public boolean save(Vehicule v) {
+	public Vehicule save(Vehicule v) {
 		boolean rep=false;
 		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
 		Transaction tx=null;
@@ -27,7 +27,8 @@ public class VehiculeDaoImpl implements IDao<Vehicule> {
 			s.close();
 		}
 		
-		return rep;
+		if(rep)return v;
+		else return null;
 	}
 
 	public List<Vehicule> selectAll() {

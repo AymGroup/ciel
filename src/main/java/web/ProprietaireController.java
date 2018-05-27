@@ -58,9 +58,9 @@ public class ProprietaireController {
 	public String addProprietaire(Model model,Proprietaire proprietaire,BindingResult result) {
 		String response="error";
 		
-		boolean rep=propSrv.save(proprietaire);
+		Proprietaire proprietaireSaved=propSrv.save(proprietaire);
 		
-		if(!rep){
+		if(proprietaireSaved==null){
 			response="error";
 			model.addAttribute("response", response);
 			model.addAttribute("proprietaire", new Proprietaire());

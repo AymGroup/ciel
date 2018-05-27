@@ -6,8 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 public class Client extends Person {
@@ -19,6 +21,9 @@ public class Client extends Person {
     @JoinColumn(name="ID_ADDRESS")
 	private Address address;
 	
+	@Transient
+	private MultipartFile userImage;
+
 	public Client() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -33,9 +38,14 @@ public class Client extends Person {
 	public String getNumPermis() {
 		return numPermis;
 	}
-
 	public void setNumPermis(String numPermis) {
 		this.numPermis = numPermis;
+	}
+	public MultipartFile getUserImage() {
+		return userImage;
+	}
+	public void setUserImage(MultipartFile userImage) {
+		this.userImage = userImage;
 	}
 
 	public Client(String nom, String prenom, String telephone, String civilite, String numPermis,String email) {

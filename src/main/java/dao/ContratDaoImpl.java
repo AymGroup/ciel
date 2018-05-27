@@ -14,7 +14,7 @@ import models.Proprietaire;
 public class ContratDaoImpl implements IDao<Contrat> {
 
 	@Override
-	public boolean save(Contrat contrat) {
+	public Contrat save(Contrat contrat) {
 		boolean rep=false;
 		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
 		Transaction tx=null;
@@ -26,12 +26,13 @@ public class ContratDaoImpl implements IDao<Contrat> {
 		}catch(Exception e) {
 			if (tx!=null) tx.rollback();
 			   e.printStackTrace(); 
-			rep= false;
+			rep=false;
 		}finally {
 			s.close();
 		}
 		
-		return rep;
+		if(rep)return contrat;
+		else return null;
 	}
 
 	@Override
@@ -63,7 +64,7 @@ public class ContratDaoImpl implements IDao<Contrat> {
 			s.close();
 		}
 		
-		if(!rep)return c;
+		if(rep)return c;
 			else return null;
 	}
 

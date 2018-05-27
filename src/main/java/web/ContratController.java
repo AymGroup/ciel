@@ -79,9 +79,9 @@ public class ContratController {
 		Proprietaire proprietaire=proprietaireSrv.getById(contrat.getProprietaire().getId());
 		contrat.setProprietaire(proprietaire);
 		
-		boolean rep=contratSrv.save(contrat);
+		Contrat contratSaved=contratSrv.save(contrat);
 		
-		if(!rep){
+		if(contratSaved==null){
 			model.addAttribute("proprietaires",proprietaires);
 			model.addAttribute("response", response);
 			model.addAttribute("contrat", new Contrat());

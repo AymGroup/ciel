@@ -11,12 +11,14 @@ import org.springframework.stereotype.Component;
 
 import hibernate.utils.HibernateAnnotationUtil;
 import models.Client;
+import models.Contrat;
 
 
 public class ClientDaoImpl implements IDao<Client> {
 
-	public boolean save(Client c) {
+	public Client save(Client c) {
 		boolean rep=false;
+		
 		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
 		Transaction tx=null;
 		try {
@@ -32,7 +34,8 @@ public class ClientDaoImpl implements IDao<Client> {
 			s.close();
 		}
 		
-		return rep;
+		if(rep)return c;
+		else return null;
 	}
 
 	@Override
@@ -63,14 +66,19 @@ public class ClientDaoImpl implements IDao<Client> {
 			s.close();
 		}
 		
-		if(!rep)return c;
+		if(rep)return c;
 			else return null;
 	}
 
 	@Override
 	public List<Client> selectAll(String sortField, String sort) {
-		// TODO Auto-generated method stub
-		return null;
+		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
+
+		Criteria cr = s.createCriteria(Client.class); 
+		cr.add(Restrictions.eq("address.city",sort));
+		List<Client> results = cr.list();
+		
+		return results;
 	}
 
 	@Override

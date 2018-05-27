@@ -14,8 +14,9 @@ import models.Categorie;
 
 public class CategorieDaoImpl implements IDao<Categorie> {
 
-	public boolean save(Categorie c) {
+	public Categorie save(Categorie c) {
 		boolean rep=false;
+
 		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
 		Transaction tx=null;
 		try {
@@ -31,7 +32,8 @@ public class CategorieDaoImpl implements IDao<Categorie> {
 			s.close();
 		}
 		
-		return rep;
+		if(rep)return c;
+		else return null;
 	}
 
 	@Override
@@ -62,7 +64,7 @@ public class CategorieDaoImpl implements IDao<Categorie> {
 			s.close();
 		}
 		
-		if(!rep)return c;
+		if(rep)return c;
 			else return null;
 	}
 

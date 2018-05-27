@@ -11,7 +11,7 @@ import models.Address;
 
 public class AddressDaoImpl implements IDao<Address> {
 	
-	public boolean save(Address adr) {
+	public Address save(Address adr) {
 		boolean rep=false;
 		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
 		Transaction tx=null;
@@ -28,7 +28,8 @@ public class AddressDaoImpl implements IDao<Address> {
 			s.close();
 		}
 		
-		return rep;
+		if(rep)return adr;
+		else return null;
 	}
 
 	public List<Address> selectAll() {

@@ -20,17 +20,16 @@ public class ProprietaireServiceImpl implements IService<Proprietaire> {
 	}
 
 	@Override
-	public boolean save(Proprietaire p) {
-		boolean rep=false;
+	public Proprietaire save(Proprietaire p) {
 		System.out.println("Service Proprietaire Class !");
-		
+		Proprietaire proprietaire=null;
 		try{
-			rep=daoProp.save(p);
+			proprietaire=daoProp.save(p);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		
-		return rep;
+		return proprietaire;
 	}
 
 	@Override
