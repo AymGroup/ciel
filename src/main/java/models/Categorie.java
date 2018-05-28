@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 public class Categorie {
@@ -17,6 +20,9 @@ public class Categorie {
 	private String libelle;
 	@Column(length=150)
 	private String description;
+	
+	@Transient
+	private MultipartFile categorieImage;
 	
 	public Categorie() {
 		super();
@@ -41,6 +47,13 @@ public class Categorie {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	public MultipartFile getCategorieImage() {
+		return categorieImage;
+	}
+	public void setCategorieImage(MultipartFile categorieImage) {
+		this.categorieImage = categorieImage;
+	}
+
 	public Categorie(String libelle, String description) {
 		super();
 		this.libelle = libelle;

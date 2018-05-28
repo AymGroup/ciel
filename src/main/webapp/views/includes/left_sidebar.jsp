@@ -24,9 +24,11 @@
                                 <li><a href="#">Liste des impayés</a></li>
                             </ul>
                         </li>
+                        <!-- CATEGORIE MENU -->
+                        <c:url value="/categorie/nouveau" var="url_categorie"></c:url>
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-folder-open"></i><span class="hide-menu">Catégories</span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="chart-flot.html">Nouvelle catégorie</a></li>
+                                <li><a href="${url_categorie }">Nouvelle catégorie</a></li>
                                 <li><a href="chart-morris.html">Liste des catégories</a></li>
                             
                             </ul>

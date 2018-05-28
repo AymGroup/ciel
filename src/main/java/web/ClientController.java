@@ -216,7 +216,7 @@ public class ClientController {
 	 * @return
 	 */
 	@RequestMapping(path="/chercher")
-	public String searchClient(@RequestParam(name="address.ville")String ville,Model model){
+	public String searchClient(@RequestParam(name="address.city")String ville,Model model){
 		
 		List<Client> clientsByCity=clientSrv.selectAll(null, ville);
 		

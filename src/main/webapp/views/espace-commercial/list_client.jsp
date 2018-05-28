@@ -173,7 +173,7 @@
                                			<hr>      			
                                				<div class="col-lg-6">
                                				<!-- Search form -->
-                               					<c:url value="/client/chercher/${address.ville }" var ="urlChercher" />
+                               					<c:url value="/client/chercher/${address.city }" var ="urlChercher" />
                                					<f:form action="${urlChercher}" modelAttribute="client">
                                					<div class="form-group">
                                						<label>Ville</label>       
