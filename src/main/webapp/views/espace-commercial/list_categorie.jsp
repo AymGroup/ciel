@@ -69,7 +69,7 @@
     <script type="text/javascript">
 	    $(document).ready(function(){
 	    	
-		      $('.deleteContrat').click(function(e){
+		      $('.deleteCategorie').click(function(e){
 		    	  
 		    	  if (!confirm("are you sure?")) {
 			    	  console.log("Opération annulé");
@@ -132,6 +132,27 @@
                                	<div class="col-lg-12">	
                                		<div class="card">	
                                			<div class="card-body">
+                               			<!-- Alert messages -->
+											<c:choose>
+												  <c:when test="${param.response_update=='success'}">
+												    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+								  						<strong>Update</strong> La modification a été effectuée avec succès.
+								  						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								    						<span aria-hidden="true">&times;</span>
+								  						</button>
+													</div>
+												  </c:when>
+												  <c:when test="${param.response_delete=='success'}">
+												    <div class="alert alert-info alert-dismissible fade show" role="alert">
+								  						<strong>Success !</strong> La suppression a été effectuée avec succès.
+								  						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								    						<span aria-hidden="true">&times;</span>
+								  						</button>
+													</div>
+												  </c:when>
+										   </c:choose>
+                               			
+                               			
                                				<h4 class="card-title">Liste des catégories</h4>
                                				<hr>  
                                 			<div class="table-responsive m-t-5">
@@ -164,8 +185,8 @@
 								                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Actions
 																			<span class="caret"></span></button>
 								                                    <ul class="dropdown-menu">
-								                                        <li><i class="fa fa-eye"></i><a class="getCategorie" href="${url_get_categorie}"> View</a></li>
-								                                        <li><i class="fa fa-pencil"></i><a href="#"> Edit</a></li>
+								                                        <li><i class="fa fa-eye"></i><a class="getCategorie" href="${url_get_categorie}"> View & Edit</a></li>
+								                                        <!-- <li><i class="fa fa-pencil"></i><a href="#"> Edit</a></li>-->
 								                                        <li><i class="fa fa-trash"></i><a class="deleteCategorie" href="${url_delete_categorie}"> Delete</a></li>
 								                                    </ul>
                                 								</div>
@@ -189,7 +210,7 @@
 	                            			<div class="card-body">
 	                            			
 	                            				<c:url value="/categorie/edit" var ="urlEdit" />
-	                                			<f:form id="myforme" modelAttribute="categorie" action="${urlEdit }">
+	                                			<f:form id="myforme" modelAttribute="categorie" action="${urlEdit }" enctype="multipart/form-data">
 	                                   		 		<div class="form-body">
 	                                   		 			<!-- # Contrat Détails -->
 	                                   		 			<h3 class="card-title m-t-4">Détails catégorie</h3>
@@ -214,6 +235,16 @@
 							        								
 							        							</div>
 							        						</div>
+							        						<div class="col-md-6">
+				                                             	<div class="form-group">
+				                                                    <label class="control-label">Upload image for your category</label><br>
+				                                                    <label class="btn btn-default btn-sm center-block btn-file">
+																	  <i class="fa fa-upload fa-2x" aria-hidden="true"></i>
+																	  <f:input type="file" style="display: none;" path="categorieImage" class="form:input-large" />
+																	</label>
+				                                                </div>
+                                             				</div>
+							        						
 	                                        				
 	                                   		 			</div>
 	                                   		 		</div><!-- # form-body -->	

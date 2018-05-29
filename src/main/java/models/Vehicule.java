@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 public class Vehicule {
@@ -50,6 +53,8 @@ public class Vehicule {
 	@JoinColumn(name="ID_CATEGORIE")
 	private Categorie categorie;
 	
+	@Transient
+	private MultipartFile vehiculeImage;
 	
 	public Vehicule() {
 		super();
@@ -132,6 +137,12 @@ public class Vehicule {
 	}
 	public void setCategorie(Categorie categorie) {
 		this.categorie = categorie;
+	}
+	public MultipartFile getVehiculeImage() {
+		return vehiculeImage;
+	}
+	public void setVehiculeImage(MultipartFile vehiculeImage) {
+		this.vehiculeImage = vehiculeImage;
 	}
 	public Vehicule(String marque, int puissanceFiscale, Date dateAchat, String immatriculation, String description,
 			double kilometrage, boolean airConditioner, String typeTransmission, String carburant) {

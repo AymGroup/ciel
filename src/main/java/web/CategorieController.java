@@ -74,6 +74,52 @@ public class CategorieController {
 		
 	}
 	
+	@RequestMapping(path="/edit")
+	public String editCategorie(Categorie categorie,Model model,HttpServletRequest request){
+		
+		String response="";
+		if(categorie.getId()!=null){
+			MultipartFile categorieImage = categorie.getCategorieImage();
+			String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+			
+			System.out.println("Root Directory :"+rootDirectory);
+			
+			path = Paths.get(rootDirectory + "/resources/uploaded/categorie/" +categorie.getId() + ".png");
+			
+			// check whether image exists or not
+			if (categorieImage != null && !categorieImage.isEmpty()) {
+				try {
+					// convert the image type to png
+					categorieImage.transferTo(new File(path.toString()));
+				} catch (IllegalStateException | IOException e) {
+					// oops! something did not work as expected
+					e.printStackTrace();
+					throw new RuntimeException("Saving Categorie image was not successful", e);
+				}
+			}
+	        Categorie categorieUpdated=categorieSrv.update(categorie);
+	        response="success";
+	        model.addAttribute("response_update", response);
+		}
+        
+		return "redirect:/categorie/getCategories";
+	}
+	
+	@RequestMapping(path="/delete")
+	public String deleteCategorie(@RequestParam(name="id")String id,Model model){
+		String response;
+		
+		try{
+			categorieSrv.remove(Long.parseLong(id));
+			response="success";
+			model.addAttribute("response_delete",response);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+		return "redirect:/categorie/getCategories";
+	}
+	
 	
 	@RequestMapping(path="/enregistrer",method=RequestMethod.POST)
 	public String saveCategorie(Model model,Categorie categorie,HttpServletRequest request) {

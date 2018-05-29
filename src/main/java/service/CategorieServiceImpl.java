@@ -26,9 +26,8 @@ public class CategorieServiceImpl implements IService<Categorie> {
 	}
 
 	@Override
-	public Categorie update(Categorie o) {
-		// TODO Auto-generated method stub
-		return null;
+	public Categorie update(Categorie c) {
+		return daoCategorie.update(c);
 	}
 
 	@Override
@@ -49,7 +48,7 @@ public class CategorieServiceImpl implements IService<Categorie> {
 
 	@Override
 	public void remove(Long id) {
-		// TODO Auto-generated method stub
+		daoCategorie.remove(id);
 		
 	}
 
