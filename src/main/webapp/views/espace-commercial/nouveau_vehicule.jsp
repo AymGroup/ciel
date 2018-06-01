@@ -27,18 +27,33 @@
    <script src="<%=request.getContextPath() %>/resources/js/scriptsJquery.js"></script>
    
    <!-- JQuery validation -->
+   
+   <script type="text/javascript">  
+   		jQuery.validator.addMethod("lettersonly", function(value, element) {
+	   		return this.optional(element) || /^[a-z]+$/i.test(value);
+	 	}, "Letters only please"); 
+   </script>
+   
     <script>
 
     	 $(document).ready(function(){
     	      
     	      $('#myform').validate({ // initialize the plugin
     	          rules: {
-    	              "libelle": {
-    	            	  maxlength: 25,
-    	                  required: true
+    	              "modele": {
+    	                  required: true,
+    	                  lettersonly: true
     	              },
-    	              "categorieImage":{
+    	              "puissanceFiscale":{
         	              required: true
+        	          },
+        	          "immatriculation":{
+        	              required: true,
+        	              maxlength: 8
+        	          },
+        	          "kilometrage":{
+        	        	  number:true,
+        	              maxlength: 8
         	          },
     	              "description": {
     	            	  maxlength: 30,
@@ -105,7 +120,12 @@
 									<!-- Alert messages -->
 									<c:choose>
 										  <c:when test="${response =='error'}">
-										    ...
+										    <div class="alert alert-error alert-dismissible fade show" role="alert">
+						  						<strong>Error !</strong> You should check in on some of those fields below.
+						  						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						    						<span aria-hidden="true">&times;</span>
+						  						</button>
+											</div>
 										  </c:when>
 										  <c:when test="${response =='success'}">
 										    <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -115,9 +135,6 @@
 						  						</button>
 											</div>
 										  </c:when>
-										  <c:otherwise>
-										    
-										  </c:otherwise>
 								   </c:choose>
 								   <!-- # End Alert -->
 
@@ -127,11 +144,41 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Marque</label>
-                                                    <f:input path="marque" class="form-control"  />
+                                                     <f:select path="marque" class="form-control custom-select" required="true">
+                                                     	<f:option selected="selected" value="" readonly="true" disabled="true">-- Choisissez une marque de véhicule --</f:option>
+                                                    	<f:option value="porsche">Porsche</f:option>
+                                                    	<f:option value="mercedes-benz">Mercedes-Benz</f:option>
+                                                    	<f:option value="jaguar">Jaguar</f:option>
+                                                    	<f:option value="land rover">Land Rover</f:option>
+                                                	</f:select> 
+                                                </div>
+                                               
+                                            </div>
+                                            <!--/span-->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Modèle</label>
+                                                    <f:input path="modele" class="form-control"  />
+                                                </div>  
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Catégorie</label>
+                                                    <f:select path="categorie.id" class="form-control custom-select" required="true">
+                                                        <f:option selected="selected" value="" readonly="true" disabled="true">-- Choisissez une catégorie --</f:option>
+                                                        <c:forEach var="categorie"  items="${categories}">
+                                                        	<f:option value="${categorie.id }">${categorie.libelle}</f:option>
+                                                        </c:forEach>                                                 
+                                                    </f:select>
+                                                </div>   
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Description</label>
+                                                    <f:input path="description" class="form-control"  />
                                                 </div>
                                                     
                                             </div>
-                                            <!--/span-->
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Puissance fiscale</label>
@@ -141,7 +188,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Immatriculationt</label>
+                                                    <label class="control-label">Immatriculation</label>
                                                     <f:input path="immatriculation" class="form-control"  />
                                                 </div>
                                                     
@@ -154,8 +201,11 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Air conditioner</label>
-                                                    <f:input path="airConditioner" class="form-control"  />
+                                                    <label class="control-label">Air conditioner</label><br>
+                                                	<f:select path="airConditioner" class="form-control custom-select">
+                                                    	<f:option value="true">Oui</f:option>
+                                                    	<f:option value="false">Non</f:option>
+                                                    </f:select>
                                                 </div>   
                                             </div>
                                             <div class="col-md-6">
@@ -176,19 +226,37 @@
                                                     </f:select>
                                                 </div>   
                                             </div>
-                                            
-                                            
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Date achat</label>
+                                                    <f:input path="dateAchat" type="date" class="form-control"  />
+                                                    
+                                                </div> 
+                                            </div>
+
                                             <div class="col-md-6">
                                              	<div class="form-group">
-                                                    <label class="control-label">Upload image for your category</label><br>
+                                                    <label class="control-label">Upload image for your vehicule</label><br>
                                                     <label class="btn btn-default btn-sm center-block btn-file">
 													  <i class="fa fa-upload fa-2x" aria-hidden="true"></i>
-													  <f:input type="file" style="display: none;" path="categorieImage" id="categorieImage" name="categorieImage" class="form:input-large" required="true"/>
+													  <f:input type="file" style="display: none;" path="vehiculeImage" class="form:input-large" required="true"/>
 													</label>
                                                 </div>
                                              </div>
                                             <!--/span-->
-                                        </div>
+                                                                                 
+                                            <div class="col-md-12">
+			                                       <div class="form-group">
+			                                           <label class="control-label">Propriétaire</label>
+			                                           <f:select path="proprietaire.id" class="form-control custom-select" required="true">
+				                                           <f:option selected="selected" value="" readonly="true" disabled="true">-- Choisissez le propriétaire --</f:option>
+				                                           <c:forEach var="proprietaire"  items="${proprietaires}">
+				                                              <f:option value="${proprietaire.id }">${proprietaire.nom} ${proprietaire.prenom}</f:option>
+				                                           </c:forEach>                                                 
+			                                           </f:select>
+			                                      </div>   
+			                                </div>
+                                        </div><!--/row p-t-20 -->
                                         <!--/row-->
                                         
                                     </div>
@@ -202,7 +270,6 @@
                     </div>
 
                 </div>
-                
                 <!-- Row -->
                 <!-- End PAge Content -->
             </div>

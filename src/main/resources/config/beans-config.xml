@@ -8,6 +8,7 @@
 		<bean id="propDao" class="dao.ProprietaireDaoImpl"></bean>
 		<bean id="contratDao" class="dao.ContratDaoImpl"></bean>
 		<bean id="categorieDao" class="dao.CategorieDaoImpl"></bean>
+		<bean id="vehiculeDao" class="dao.VehiculeDaoImpl"></bean>
 		
 		<!-- Client - Injection -->
 		<bean id="clientServices" class="service.ClientServiceImpl">
@@ -42,7 +43,15 @@
 			<property name="categorieSrv" ref="categorieServices"></property>
 		</bean>
 
-		
+		<!-- Vehicule - Injection -->
+		<bean id="vehiculeService" class="service.VehiculeServiceImpl">
+			<property name="daoVehicule" ref="vehiculeDao"></property>
+		</bean>
+		<bean id="vehiculeController" class="web.VehiculeController">
+			<property name="vehiculeSrv" ref="vehiculeService"></property>
+			<property name="proprietaireSrv" ref="propServices"></property>
+			<property name="categorieSrv" ref="categorieServices"></property>
+		</bean>
 		
 
 		

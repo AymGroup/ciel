@@ -25,11 +25,12 @@ public class Vehicule {
 	private Long id;
 	@Column(nullable=false,length=25)
 	private String marque;
+	private String modele;
 	@Column(nullable=false)
 	private int puissanceFiscale;
 	@Column(nullable=false)
-	@Temporal(TemporalType.DATE)
-	private Date dateAchat;
+	//@Temporal(TemporalType.DATE)
+	private String dateAchat;
 	@Column(nullable=false,length=25)
 	private String immatriculation;
 	@Column(nullable=false)
@@ -41,15 +42,16 @@ public class Vehicule {
 	@Column(nullable=false,length=15)
 	private String carburant;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	/*@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="ID_ADDRESS_VEHICULE")
-	private AddressVehicule addressVehicule;
+	private AddressVehicule addressVehicule;*/
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	//@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="ID")
 	private Proprietaire Proprietaire;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="ID_CATEGORIE")
 	private Categorie categorie;
 	
@@ -72,16 +74,22 @@ public class Vehicule {
 	public void setMarque(String marque) {
 		this.marque = marque;
 	}
+	public String getModele() {
+		return modele;
+	}
+	public void setModele(String modele) {
+		this.modele = modele;
+	}
 	public int getPuissanceFiscale() {
 		return puissanceFiscale;
 	}
 	public void setPuissanceFiscale(int puissanceFiscale) {
 		this.puissanceFiscale = puissanceFiscale;
 	}
-	public Date getDateAchat() {
+	public String getDateAchat() {
 		return dateAchat;
 	}
-	public void setDateAchat(Date dateAchat) {
+	public void setDateAchat(String dateAchat) {
 		this.dateAchat = dateAchat;
 	}
 	public String getImmatriculation() {
@@ -120,12 +128,6 @@ public class Vehicule {
 	public void setTypeTransmission(String typeTransmission) {
 		this.typeTransmission = typeTransmission;
 	}
-	public AddressVehicule getAddressVehicule() {
-		return addressVehicule;
-	}
-	public void setAddressVehicule(AddressVehicule addressVehicule) {
-		this.addressVehicule = addressVehicule;
-	}
 	public Proprietaire getProprietaire() {
 		return Proprietaire;
 	}
@@ -144,10 +146,11 @@ public class Vehicule {
 	public void setVehiculeImage(MultipartFile vehiculeImage) {
 		this.vehiculeImage = vehiculeImage;
 	}
-	public Vehicule(String marque, int puissanceFiscale, Date dateAchat, String immatriculation, String description,
+	public Vehicule(String marque,String modele, int puissanceFiscale, String dateAchat, String immatriculation, String description,
 			double kilometrage, boolean airConditioner, String typeTransmission, String carburant) {
 		super();
 		this.marque = marque;
+		this.modele=modele;
 		this.puissanceFiscale = puissanceFiscale;
 		this.dateAchat = dateAchat;
 		this.immatriculation = immatriculation;

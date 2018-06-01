@@ -26,29 +26,34 @@
                         </li>
                         <!-- CATEGORIE MENU -->
                         <c:url value="/categorie/nouveau" var="url_categorie"></c:url>
+                        <c:url value="/categorie/getCategories" var="url_categorie_list"></c:url>
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-folder-open"></i><span class="hide-menu">Catégories</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="${url_categorie }">Nouvelle catégorie</a></li>
-                                <li><a href="chart-morris.html">Liste des catégories</a></li>
+                                <li><a href="${url_categorie_list }">Liste des catégories</a></li>
                             
                             </ul>
                         </li>
+                        <!-- VEHICULE MENU -->
+                        <c:url value="/vehicule/nouveau" var="url_vehicule"></c:url>
+                        <c:url value="/vehicule/getVehicules" var="url_vehicule_list"></c:url>
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-road"></i><span class="hide-menu">Véhicules</span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="#">Nouvelle véhicule</a></li>
+                                <li><a href="${url_vehicule }">Nouvelle véhicule</a></li>
                                 <li><a href="#">Véhicule en service</a></li>
                                 <li><a href="#">Véhicule hors service</a></li>
-                                <li><a href="#">Liste des véhicules</a></li>
+                                <li><a href="${url_vehicule_list }">Liste des véhicules</a></li>
                             </ul>
                         </li>
                         
                         <!-- CLIENT MENU -->
                         <c:url value="/client/nouveau" var="url_client"></c:url>
+                        <c:url value="/client/getClients" var="url_client_list"></c:url>
                         <li class="nav-label">Main Menu</li>
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-user"></i><span class="hide-menu">Client</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="${url_client }">Nouveau client</a></li>
-                                <li><a href="#">Liste des clients</a></li>
+                                <li><a href="${url_client_list }">Liste des clients</a></li>
                             </ul>
                         </li>
 
@@ -63,11 +68,12 @@
                         </li>
                         
                         <!-- CONTRAT MENU -->
-                        <c:url value="/contrat/nouveau" var="url_contrat"></c:url>  
+                        <c:url value="/contrat/nouveau" var="url_contrat"></c:url> 
+                        <c:url value="/contrat/getContrats" var="url_contrat_list"></c:url>   
 						<li> <a href="#" aria-expanded="false"><i class="fa fa-suitcase"></i><span class="hide-menu">Contrat propriétaire</span></a>
 							<ul aria-expanded="false" class="collapse">
                                 <li><a href="${url_contrat }">Nouveau contrat</a></li>
-                                <li><a href="form-layout.html">Liste des contrats</a></li>
+                                <li><a href="${url_contrat_list }">Liste des contrats</a></li>
                             </ul>
 						</li>
                         

@@ -22,8 +22,8 @@
         <mapping class="models.Proprietaire"/>
         <mapping class="models.Contrat"/>
         <mapping class="models.Categorie"/>
-        <!--<mapping class="models.Vehicule"/>
-        <mapping class="models.AddressVehicule"/>
+        <mapping class="models.Vehicule"/>
+        <!--<mapping class="models.AddressVehicule"/>
         <mapping class="models.Categorie"/>
         <mapping class="models.Reservation"/>-->
         
