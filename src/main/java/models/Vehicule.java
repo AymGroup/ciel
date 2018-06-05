@@ -41,6 +41,7 @@ public class Vehicule {
 	private String typeTransmission;
 	@Column(nullable=false,length=15)
 	private String carburant;
+	private String onService;
 
 	/*@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="ID_ADDRESS_VEHICULE")
@@ -49,7 +50,7 @@ public class Vehicule {
 	//@ManyToOne(cascade = CascadeType.ALL)
 	@ManyToOne
 	@JoinColumn(name="ID")
-	private Proprietaire Proprietaire;
+	private Proprietaire proprietaire;
 	
 	@ManyToOne
 	@JoinColumn(name="ID_CATEGORIE")
@@ -128,11 +129,17 @@ public class Vehicule {
 	public void setTypeTransmission(String typeTransmission) {
 		this.typeTransmission = typeTransmission;
 	}
+	public String getOnService() {
+		return onService;
+	}
+	public void setOnService(String onService) {
+		this.onService = onService;
+	}
 	public Proprietaire getProprietaire() {
-		return Proprietaire;
+		return proprietaire;
 	}
 	public void setProprietaire(Proprietaire proprietaire) {
-		Proprietaire = proprietaire;
+		this.proprietaire = proprietaire;
 	}
 	public Categorie getCategorie() {
 		return categorie;
@@ -147,7 +154,7 @@ public class Vehicule {
 		this.vehiculeImage = vehiculeImage;
 	}
 	public Vehicule(String marque,String modele, int puissanceFiscale, String dateAchat, String immatriculation, String description,
-			double kilometrage, boolean airConditioner, String typeTransmission, String carburant) {
+			double kilometrage, boolean airConditioner, String typeTransmission, String carburant,String onService) {
 		super();
 		this.marque = marque;
 		this.modele=modele;
@@ -159,6 +166,7 @@ public class Vehicule {
 		this.airConditioner = airConditioner;
 		this.typeTransmission = typeTransmission;
 		this.carburant = carburant;
+		this.onService=onService;
 	}
 	
 	

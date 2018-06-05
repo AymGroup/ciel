@@ -32,14 +32,12 @@ public class VehiculeServiceImpl implements IService<Vehicule> {
 
 	@Override
 	public List<Vehicule> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return daoVehicule.selectAll();
 	}
 
 	@Override
 	public List<Vehicule> selectAll(String sortField, String sort) {
-		// TODO Auto-generated method stub
-		return null;
+		return daoVehicule.selectAll(null,sort);
 	}
 
 	@Override

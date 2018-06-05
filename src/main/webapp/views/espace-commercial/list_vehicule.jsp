@@ -47,10 +47,10 @@
         	            var result="";
         	            datas = JSON.parse(data);
         	            $("#id").val(datas.id);
-        	            $("#description").val(datas.description);
-        	            $("#dateFin").val(datas.dateFin);
-        	            $("#tarif").val(datas.tarif);
-        	            $("#reglement").val(datas.reglement);
+        	            $("#marque").val(datas.marque);
+        	            $("#modele").val(datas.modele);
+        	            $("#puissanceFiscale").val(datas.puissanceFiscale);
+        	            $("#dateAchat").val(datas.dateAchat);
         	            $("#nom").val(datas.proprietaire.nom);
         	            $("#prenom").val(datas.reglement);
         	            $("#tel").val(datas.proprietaire.telephone);
@@ -58,9 +58,10 @@
         	            $("#email").val(datas.proprietaire.email);
         	            $("#assurance").val(datas.proprietaire.assuranceAdherer);
 
+        	            $('#vehiculeImage').attr('src', "/car_rental/resources/uploaded/vehicule/"+datas.id+".png");
+        	            
         	           	$("#infoShow").show();
-        	            //$(".accordion").remove();
-    	                //$('#result').html(data);
+     
     	              },
     	    	  	  error: function(response) {
     	              	alert("An error occurred !");
@@ -192,20 +193,17 @@
 								  						</button>
 													</div>
 												  </c:when>
-												  <c:otherwise>
-												    
-												  </c:otherwise>
 										   </c:choose>
 										   <!-- # End Alert -->			
                                 		<h4 class="card-title">Recherche véhicules par propriétaires</h4>
                                			<hr>      			
                                				<div class="col-lg-6">
                                				<!-- Search form -->
-                               					<c:url value="/contrat/chercher/${proprietaire.id }" var ="urlChercher" />
-                               					<f:form action="${urlChercher}" modelAttribute="contrat">
+                               					<c:url value="/vehicule/chercherParProprietaire/${proprietaire.id }" var ="urlChercher" />
+                               					<f:form action="${urlChercher}" modelAttribute="vehicule">
                                					<div class="form-group">
                                						<label>Propriétaire</label>
-                                                    <f:select id="proprietaire.id" path="proprietaire.id" class="form-control custom-select" required="true">
+                                                    <f:select path="proprietaire.id" class="form-control custom-select" required="true">
                                                         <f:option selected="selected" value="" readonly="true" disabled="true">-- Veuillez sélectionner un propriétaire --</f:option>
                                                         
                                                         <c:forEach var="proprietaire"  items="${proprietaires}">
@@ -220,8 +218,9 @@
                                					</div>
                                                   
                                                 </f:form>
-                                            <!-- # END Search form -->  
+                                            <!-- # END Search form --> 
                                				</div><!-- # col-lg-6 -->
+                               				
                                			</div><!-- # card-body -->
                                		</div><!-- # card -->
                           </div><!-- # col-lg-12 -->
@@ -237,45 +236,73 @@
                                		<div class="card">	
                                			<div class="card-body">
                                				<c:if test = "${empty prop}">
-                               					<h4 class="card-title">Liste des contrats propriétaires</h4>
+                               					<h4 class="card-title">Liste des véhicules propriétaires</h4>
                                				</c:if>
                                				<c:if test = "${not empty prop}">
-                               					<h4 class="card-title">Liste des contrats pour le propriétaire : ${prop}</h4>
+                               					<h4 class="card-title">Liste des véhicules pour le propriétaire : ${prop}</h4>
                                				</c:if>
                                				<hr>  
+                               				
+                               				<div class="col-lg-6">
+	                               					<c:url value="/vehicule/chercherParProprietaire/${proprietaire.id }" var ="urlChercher" />
+	                               					<f:form action="${urlChercher}" modelAttribute="vehicule">
+	                               					<div class="form-group">
+	                               						<label>Catégorie</label>
+	                                                    <f:select path="proprietaire.id" class="form-control custom-select" required="true">
+	                                                        <f:option selected="selected" value="" readonly="true" disabled="true">-- Veuillez sélectionner un propriétaire --</f:option>
+	                                                        
+	                                                        <c:forEach var="proprietaire"  items="${proprietaires}">
+	                                                        	<f:option value="${proprietaire.id }">${proprietaire.nom} ${proprietaire.prenom}</f:option>
+	                                                        </c:forEach>   
+	                                                                                                         
+	                                                    </f:select>
+	                                                 </div>
+	                                                 
+	                                                 <div class="form-actions">
+	                               						<button type="submit" class="btn btn-info btn-rounded m-b-10 m-l-5"><i class="fa fa-search"></i>Chercher</button>
+	                               					</div>
+	                                                  
+	                                                </f:form>
+                                                </div>
+                               				
                                 			<div class="table-responsive m-t-5">
                                     			<table id="myTable" class="table table-bordered table-striped">
                                         			<thead>
 			                                            <tr>
 			                                                <th>#</th>
-			                                                <th>Description</th>
-			                                                <th>Date du début du contrat</th>
-			                                                <th>Date de fin du contrat</th>
-			                                                <th>Tarif</th>
-			                                                <th>Opérations</th>
+			                                                <th>Image</th>
+			                                                <th>Marque</th>
+			                                                <th>Modele</th>
+			                                                <th>Puissance fiscale</th>
+			                                                <th>Carburant</th>
+			                                                <th>Date achat</th>
+			                                                <th>Actions</th>
 			                                            </tr>
 			                                        </thead>
 			                                        <tbody>
 			                                        
-			                                        <c:forEach var="contrat" items="${contrats}">
+			                                        <c:forEach var="vehicule" items="${vehicules}">
 			                                            <tr>
-			                                                <td>${contrat.id }</td>
-			                                                <td>${contrat.description }</td>
-			                                                <td>${contrat.dateDebut }</td>
-			                                                <td>${contrat.dateFin }</td>
-			                                                <td>${contrat.tarif }</td>
+			                                                <td>${vehicule.id }</td>
+			                                                <td>
+			                                                	<img id="catImage" src="<c:url value="/resources/uploaded/vehicule/${vehicule.id}.png"/>" alt="image" class="img-thumbnail" width="150" height="150"/>
+			                                                </td>
+			                                                <td>${vehicule.marque }</td>
+			                                                <td>${vehicule.modele }</td>
+			                                                <td>${vehicule.puissanceFiscale }</td>
+			                                                <td>${vehicule.carburant }</td>
+			                                                <td>${vehicule.dateAchat }</td>
 			                                                
 			                                                <!-- View Détails -->
-			                                                <c:url var="url_get_contrat" value="/contrat/get?id=${contrat.id }" />
-			                                                <c:url var="url_delete_contrat" value="/contrat/delete?id=${contrat.id }" />
+			                                                <c:url var="url_get_vehicule" value="/vehicule/get?id=${vehicule.id }" />
+			                                                <c:url var="url_delete_vehicule" value="/vehicule/delete?id=${vehicule.id }" />
 			                                                <td>
 			                                               		<div class="dropdown">
 								                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Actions
 																			<span class="caret"></span></button>
 								                                    <ul class="dropdown-menu">
-								                                        <li><i class="fa fa-eye"></i><a class="getContrat" href="${url_get_contrat}"> View</a></li>
-								                                        <li><i class="fa fa-pencil"></i><a href="#"> Edit</a></li>
-								                                        <li><i class="fa fa-trash"></i><a class="deleteContrat" href="${url_delete_contrat}"> Delete</a></li>
+								                                        <li><i class="fa fa-eye"></i><a class="getContrat" href="${url_get_vehicule}"> View & Edit</a></li>
+								                                        <li><i class="fa fa-trash"></i><a class="deleteContrat" href="${url_delete_vehicule}"> Delete</a></li>
 								                                    </ul>
                                 								</div>
 			                                                </td>
@@ -298,94 +325,126 @@
                         			<div class="card card-outline-primary">
                             			<div class="card-body">
                             			
-                            				<c:url value="/contrat/edit" var ="urlEdit" />
-                                			<f:form id="myforme" modelAttribute="contrate" action="${urlEdit }">
+                            				<c:url value="/vehiculet/edit" var ="urlEdit" />
+                                			<f:form id="myforme" modelAttribute="vehicule" action="${urlEdit }">
                                    		 		<div class="form-body">
                                    		 			<!-- # Contrat Détails -->
-                                   		 			<h3 class="card-title m-t-4">Détails contrat</h3>
+                                   		 			<h3 class="card-title m-t-4">Détails du véhicule</h3>
                                         			<hr>
                                         			<div class="row">
+                                        				<div class="col-lg-12">
+							        							<div class="form-group">
+							        								<img id="vehiculeImage" src="<c:url value=""/>" alt="image" class="img-thumbnail" width="400" height="400" style="margin:0 570px;"/>
+							        							</div>
+							        					</div>
                                         				<div class="col-lg-6">
 						        							<div class="form-group">
-						        								<label>Description :</label>
-						        								<!--<input id="desc" type="text" class="form-control"/>-->
-						        								<f:input path="description" class="form-control"  />
-						        								<!-- <input id="idContrat" type="hidden"> -->
+						        								<label>Marque :</label>
+						        								<f:select path="marque" class="form-control custom-select" required="true">
+			                                                     	<f:option selected="selected" value="" readonly="true" disabled="true">-- Choisissez une marque de véhicule --</f:option>
+			                                                    	<f:option value="porsche">Porsche</f:option>
+			                                                    	<f:option value="mercedes-benz">Mercedes-Benz</f:option>
+			                                                    	<f:option value="jaguar">Jaguar</f:option>
+			                                                    	<f:option value="land rover">Land Rover</f:option>
+                                                				</f:select> 
 						        								<f:input path="id" type="hidden" />
 						        							</div>
 						        						</div>
                                         				<div class="col-lg-6">
 						        							<div class="form-group">
-						        								<label>Date fin du contrat :</label>
-						        								<f:input path="dateFin" type="date" class="form-control"  />
+						        								<label>Modèle :</label>
+						        								<f:input path="modele" class="form-control"  />
 						        							</div>
 						        						</div>
-						        						<div class="col-lg-12">
+						        						<div class="col-md-6">
+			                                                <div class="form-group">
+			                                                    <label class="control-label">Catégorie</label>
+			                                                    <f:select path="categorie.id" class="form-control custom-select" required="true">
+			                                                        <f:option selected="selected" value="" readonly="true" disabled="true">-- Choisissez une catégorie --</f:option>
+			                                                        <c:forEach var="categorie"  items="${categories}">
+			                                                        	<f:option value="${categorie.id }">${categorie.libelle}</f:option>
+			                                                        </c:forEach>                                                 
+			                                                    </f:select>
+                                                			</div>   
+                                            			</div>
+						        						<div class="col-lg-6">
 						        							<div class="form-group">
-						        								<label>Tarif :</label>
-						        								<f:input path="tarif" class="form-control"  />
+						        								<label>Puissance fiscale :</label>
+						        								<f:input path="puissanceFiscale" class="form-control"  />
 						        							</div>
 						        						</div>
-						        						<div class="col-lg-12">
+						        						<div class="col-lg-6">
 						        							<div class="form-group">
-						        								<label>Règlement :</label>
-						        								<f:textarea path="reglement" class="form-control" cols="50" rows="10" style="height:300px"></f:textarea>
+						        								<label>Date achat :</label>
+						        								<f:input path="dateAchat" type="date" class="form-control"  />
 						        							</div>
 						        						</div>
+						        						<div class="col-lg-6">
+						        							<div class="form-group">
+						        								<label>Immatriculation :</label>
+						        								<f:input path="immatriculation" class="form-control"  />
+						        							</div>
+						        						</div>
+						        						<div class="col-lg-6">
+						        							<div class="form-group">
+						        								<label>Description :</label>
+						        								<f:input path="description" class="form-control"  />
+						        							</div>
+						        						</div>
+						        						<div class="col-lg-6">
+						        							<div class="form-group">
+						        								<label>Kilométrage :</label>
+						        								<f:input path="kilometrage" class="form-control"  />
+						        							</div>
+						        						</div>
+						        						<div class="col-lg-6">
+						        							<div class="form-group">
+						        								<label>Air conditioner :</label>
+						        								<f:select path="airConditioner" class="form-control custom-select">
+                                                    				<f:option value="true">Oui</f:option>
+                                                    				<f:option value="false">Non</f:option>
+                                                    			</f:select>
+						        							</div>
+						        						</div>
+						        						<div class="col-lg-6">
+						        							<div class="form-group">
+						        								<label>TypeTransmission :</label>
+						        								<f:select path="typeTransmission" class="form-control custom-select">
+                                                    				<f:option value="manuelle">Manuelle</f:option>
+                                                    				<f:option value="automatique">Automatique</f:option>
+                                                    			</f:select>
+						        							</div>
+						        						</div>
+						        						<div class="col-lg-6">
+						        							<div class="form-group">
+						        								<label>Carburant :</label>
+						        								<f:select path="carburant" class="form-control custom-select">
+                                                    				<f:option value="essence">Essence</f:option>
+                                                    				<f:option value="diesel">Diesel</f:option>
+                                                    			</f:select>
+						        							</div>
+						        						</div>
+						        						
+						        						<!--  
+						        						<div class="col-lg-12">
+					                                       <div class="form-group">
+					                                           <label class="control-label">Propriétaire</label>
+					                                           <f:select path="proprietaire.id" class="form-control custom-select" required="true">
+						                                           <f:option selected="selected" value="" readonly="true" disabled="true">-- Choisissez le propriétaire --</f:option>
+						                                           <c:forEach var="proprietaire"  items="${proprietaires}">
+						                                              <f:option value="${proprietaire.id }">${proprietaire.nom} ${proprietaire.prenom}</f:option>
+						                                           </c:forEach>                                                 
+					                                           </f:select>
+					                                      </div>   
+			                                			</div>-->
+						        						
                                    		 			</div>
                                    		 		</div><!-- # form-body -->
                                    		 		<div class="form-actions">
                                         			<button type="submit" class="btn btn-warning"> <i class="fa fa-check"></i> Edit</button>
                                         			<button type="reset" class="btn btn-inverse">Cancel</button>
                                     			</div>
-                                   		 	</f:form><!-- # myForm --><br>
-                                   		 			
-                                   		 			<!-- # Propriétaire Détails -->
-                                   		 			<h3 class="card-title m-t-4">Informations sur le propriétaire </h3>
-                                        			<hr>
-                                        			<div class="form-body">
-                                        			<div class="row">
-                                        				<div class="col-lg-6">
-						        							<div class="form-group">
-						        								<label>Nom :</label>
-						        								<input id="nom" type="text" class="form-control"/>
-						        								
-						        							</div>
-						        						</div>
-						        						<div class="col-lg-6">
-						        							<div class="form-group">
-						        								<label>Prénom :</label>
-						        								<input id="prenom" type="text" class="form-control"/>
-						        							</div>
-						        						</div>
-						        						<div class="col-lg-6">
-						        							<div class="form-group">
-						        								<label>Téléphone :</label>
-						        								<input id="tel" type="text" class="form-control"/>
-						        							</div>
-						        						</div>
-						        						<div class="col-lg-6">
-						        							<div class="form-group">
-						        								<label>Civilité :</label>
-						        								<input id="civilite" type="text" class="form-control"/>
-						        							</div>
-						        						</div>
-						        						<div class="col-lg-6">
-						        							<div class="form-group">
-						        								<label>Email :</label>
-						        								<input id="email" type="text" class="form-control"/>
-						        							</div>
-						        						</div>
-						        						<div class="col-lg-6">
-						        							<div class="form-group">
-						        								<label>Assurance Adhérer :</label>
-						        								<input id="assurance" type="text" class="form-control"/>
-						        							</div>
-						        						</div>
-						        					</div>
-						        						
-                                   		 		</div>
-                                   		 	
+                                   		 	</f:form><!-- # myForm --><br>	
                             			</div><!-- # card-body -->
                             		</div><!-- # card card-outline-primary -->
                             	</div><!-- # col-lg-12 -->

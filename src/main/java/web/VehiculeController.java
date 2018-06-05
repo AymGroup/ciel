@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -71,10 +73,38 @@ public class VehiculeController {
 	public String listVehicules(Model model) {
 		
 		List<Vehicule> vehicules=vehiculeSrv.selectAll();
+		List<Proprietaire> proprietaires=proprietaireSrv.selectAll();
 		
+		model.addAttribute("proprietaire", new Proprietaire());
 		model.addAttribute("vehicule",new Vehicule());
+		model.addAttribute("proprietaires", proprietaires);
 		model.addAttribute("vehicules",vehicules);
 		return "espace-commercial/list_vehicule";
+	}
+	
+	@RequestMapping(path="/chercherParProprietaire")
+	public String chercherParProprietaire(Model model,@RequestParam(name="proprietaire.id") String id) {
+		String proprietaire=null;
+		List<Vehicule> vehicules=vehiculeSrv.selectAll(null,id);
+		List<Proprietaire> proprietaires=proprietaireSrv.selectAll();
+		
+		List<String>proprietairesMapped=vehicules.stream().map(p->p.getProprietaire().getNom().toUpperCase()+ " " +p.getProprietaire().getPrenom()).collect(Collectors.toList());
+		
+		if(!proprietairesMapped.isEmpty()){
+			proprietaire = proprietairesMapped.get(0);
+		}
+		
+		if(!vehicules.isEmpty()) {
+			model.addAttribute("prop",proprietaire);
+			model.addAttribute("proprietaire", new Proprietaire());
+			model.addAttribute("vehicule",new Vehicule());
+			model.addAttribute("proprietaires", proprietaires);
+			model.addAttribute("vehicules",vehicules);
+			return "espace-commercial/list_vehicule";
+		}
+		
+		return "redirect:vehicule/getVehicules";
+
 	}
 	
 	@RequestMapping(path="/enregistrer",method=RequestMethod.POST)
