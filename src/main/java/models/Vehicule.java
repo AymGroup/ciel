@@ -36,11 +36,15 @@ public class Vehicule {
 	@Column(nullable=false)
 	private String description;
 	private double kilometrage;
-	private boolean airConditioner;
+	
+	@Column(length=5)
+	private String airConditioner;
+	
 	@Column(nullable=false,length=15)
 	private String typeTransmission;
 	@Column(nullable=false,length=15)
 	private String carburant;
+	@Column(length=15)
 	private String onService;
 
 	/*@ManyToOne(cascade = CascadeType.ALL)
@@ -111,10 +115,10 @@ public class Vehicule {
 	public void setKilometrage(double kilometrage) {
 		this.kilometrage = kilometrage;
 	}
-	public boolean isAirConditioner() {
+	public String getAirConditioner() {
 		return airConditioner;
 	}
-	public void setAirConditioner(boolean airConditioner) {
+	public void setAirConditioner(String airConditioner) {
 		this.airConditioner = airConditioner;
 	}
 	public String getCarburant() {
@@ -154,7 +158,7 @@ public class Vehicule {
 		this.vehiculeImage = vehiculeImage;
 	}
 	public Vehicule(String marque,String modele, int puissanceFiscale, String dateAchat, String immatriculation, String description,
-			double kilometrage, boolean airConditioner, String typeTransmission, String carburant,String onService) {
+			double kilometrage, String airConditioner, String typeTransmission, String carburant,String onService) {
 		super();
 		this.marque = marque;
 		this.modele=modele;

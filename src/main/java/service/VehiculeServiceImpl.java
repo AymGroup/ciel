@@ -42,8 +42,7 @@ public class VehiculeServiceImpl implements IService<Vehicule> {
 
 	@Override
 	public Vehicule getById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return daoVehicule.getById(id);
 	}
 
 	@Override

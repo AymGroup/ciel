@@ -15,8 +15,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import models.Categorie;
 import models.Client;
@@ -74,12 +77,31 @@ public class VehiculeController {
 		
 		List<Vehicule> vehicules=vehiculeSrv.selectAll();
 		List<Proprietaire> proprietaires=proprietaireSrv.selectAll();
+		List<Categorie> categories=categorieSrv.selectAll();
 		
+		model.addAttribute("categories",categories);
 		model.addAttribute("proprietaire", new Proprietaire());
 		model.addAttribute("vehicule",new Vehicule());
 		model.addAttribute("proprietaires", proprietaires);
 		model.addAttribute("vehicules",vehicules);
 		return "espace-commercial/list_vehicule";
+	}
+	
+	@RequestMapping(path="/get")
+	@ResponseBody 
+	public String getCategorie(@RequestParam(name="id")String id,Model model){
+		
+		Vehicule vehicule=vehiculeSrv.getById(Long.parseLong(id));
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(vehicule);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return json;
+		
 	}
 	
 	@RequestMapping(path="/chercherParProprietaire")
@@ -95,6 +117,9 @@ public class VehiculeController {
 		}
 		
 		if(!vehicules.isEmpty()) {
+			
+			List<Categorie> categories=categorieSrv.selectAll();
+			model.addAttribute("categories",categories);
 			model.addAttribute("prop",proprietaire);
 			model.addAttribute("proprietaire", new Proprietaire());
 			model.addAttribute("vehicule",new Vehicule());
@@ -144,5 +169,42 @@ public class VehiculeController {
 		model.addAttribute("response",response);
 		return "redirect:/vehicule/nouveau";
 		
+	}
+	
+	@RequestMapping(path="/edit")
+	public String editVehicule(Vehicule vehicule,Model model,HttpServletRequest request){
+		
+		String response="";
+		
+		Categorie categorie=categorieSrv.getById(vehicule.getCategorie().getId());
+		Proprietaire proprietaire=proprietaireSrv.getById(vehicule.getProprietaire().getId());
+		vehicule.setProprietaire(proprietaire);
+		vehicule.setCategorie(categorie);
+		
+		if(vehicule.getId()!=null){
+			MultipartFile vehiculeImage = vehicule.getVehiculeImage();
+			String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+			
+			System.out.println("Root Directory :"+rootDirectory);
+			
+			path = Paths.get(rootDirectory + "/resources/uploaded/vehicule/" +vehicule.getId() + ".png");
+			
+			// check whether image exists or not
+			if (vehiculeImage != null && !vehiculeImage.isEmpty()) {
+				try {
+					// convert the image type to png
+					vehiculeImage.transferTo(new File(path.toString()));
+				} catch (IllegalStateException | IOException e) {
+					// oops! something did not work as expected
+					e.printStackTrace();
+					throw new RuntimeException("Saving Vehicule image was not successful", e);
+				}
+			}
+	        Vehicule vehiculeUpdated=vehiculeSrv.update(vehicule);
+	        response="success";
+	        model.addAttribute("response_update", response);
+		}
+        
+		return "redirect:/vehicule/getVehicules";
 	}
 }

@@ -36,7 +36,7 @@
 
     	 $(document).ready(function(){
     	      
-    	      $('.getContrat').click(function(e){
+    	      $('.getVehicule').click(function(e){
 				  //alert($(this).attr('href'));
 				  e.preventDefault();
 				  
@@ -51,12 +51,13 @@
         	            $("#modele").val(datas.modele);
         	            $("#puissanceFiscale").val(datas.puissanceFiscale);
         	            $("#dateAchat").val(datas.dateAchat);
-        	            $("#nom").val(datas.proprietaire.nom);
-        	            $("#prenom").val(datas.reglement);
-        	            $("#tel").val(datas.proprietaire.telephone);
-        	            $("#civilite").val(datas.proprietaire.civilite);
-        	            $("#email").val(datas.proprietaire.email);
-        	            $("#assurance").val(datas.proprietaire.assuranceAdherer);
+        	            $("#immatriculation").val(datas.immatriculation);
+        	            $("#description").val(datas.description);
+        	            $("#kilometrage").val(datas.kilometrage);
+        	            $("#airConditioner").val(datas.airConditioner);
+        	            $("#typeTransmission").val(datas.typeTransmission);
+        	            $("#carburant").val(datas.carburant);
+        	            //$("#idCatt").val(datas.categorie.libelle);
 
         	            $('#vehiculeImage').attr('src', "/car_rental/resources/uploaded/vehicule/"+datas.id+".png");
         	            
@@ -248,14 +249,12 @@
 	                               					<f:form action="${urlChercher}" modelAttribute="vehicule">
 	                               					<div class="form-group">
 	                               						<label>Catégorie</label>
-	                                                    <f:select path="proprietaire.id" class="form-control custom-select" required="true">
-	                                                        <f:option selected="selected" value="" readonly="true" disabled="true">-- Veuillez sélectionner un propriétaire --</f:option>
-	                                                        
-	                                                        <c:forEach var="proprietaire"  items="${proprietaires}">
-	                                                        	<f:option value="${proprietaire.id }">${proprietaire.nom} ${proprietaire.prenom}</f:option>
-	                                                        </c:forEach>   
-	                                                                                                         
-	                                                    </f:select>
+	                                                    <f:select path="categorie.id" class="form-control custom-select" required="true">
+			                                                    <f:option selected="selected" value="" readonly="true" disabled="true">-- Choisissez une catégorie --</f:option>
+			                                                    <c:forEach var="categorie"  items="${categories}">
+			                                                        	<f:option value="${categorie.id }">${categorie.libelle}</f:option>
+			                                                    </c:forEach>                                                 
+			                                            </f:select>
 	                                                 </div>
 	                                                 
 	                                                 <div class="form-actions">
@@ -301,7 +300,7 @@
 								                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Actions
 																			<span class="caret"></span></button>
 								                                    <ul class="dropdown-menu">
-								                                        <li><i class="fa fa-eye"></i><a class="getContrat" href="${url_get_vehicule}"> View & Edit</a></li>
+								                                        <li><i class="fa fa-eye"></i><a class="getVehicule" href="${url_get_vehicule}"> View & Edit</a></li>
 								                                        <li><i class="fa fa-trash"></i><a class="deleteContrat" href="${url_delete_vehicule}"> Delete</a></li>
 								                                    </ul>
                                 								</div>
@@ -359,7 +358,7 @@
 						        						<div class="col-md-6">
 			                                                <div class="form-group">
 			                                                    <label class="control-label">Catégorie</label>
-			                                                    <f:select path="categorie.id" class="form-control custom-select" required="true">
+			                                                    <f:select id="idCatt" path="categorie.id" class="form-control custom-select" required="true">
 			                                                        <f:option selected="selected" value="" readonly="true" disabled="true">-- Choisissez une catégorie --</f:option>
 			                                                        <c:forEach var="categorie"  items="${categories}">
 			                                                        	<f:option value="${categorie.id }">${categorie.libelle}</f:option>
@@ -401,8 +400,8 @@
 						        							<div class="form-group">
 						        								<label>Air conditioner :</label>
 						        								<f:select path="airConditioner" class="form-control custom-select">
-                                                    				<f:option value="true">Oui</f:option>
-                                                    				<f:option value="false">Non</f:option>
+                                                    				<f:option value="oui">Oui</f:option>
+                                                    				<f:option value="non">Non</f:option>
                                                     			</f:select>
 						        							</div>
 						        						</div>

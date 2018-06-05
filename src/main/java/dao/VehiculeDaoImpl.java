@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import hibernate.utils.HibernateAnnotationUtil;
+import models.Categorie;
 import models.Vehicule;
 
 public class VehiculeDaoImpl implements IDao<Vehicule> {
@@ -60,8 +61,16 @@ public class VehiculeDaoImpl implements IDao<Vehicule> {
 
 	@Override
 	public Vehicule getById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
+		Criteria cr=s.createCriteria(Vehicule.class);
+		cr.add(Restrictions.eq("id", id));
+		Vehicule vehicule=(Vehicule) cr.uniqueResult();
+		
+		if(vehicule!=null){
+			return vehicule;
+		}else
+			return null;
+		
 	}
 
 	@Override

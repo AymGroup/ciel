@@ -203,8 +203,8 @@
                                                 <div class="form-group">
                                                     <label class="control-label">Air conditioner</label><br>
                                                 	<f:select path="airConditioner" class="form-control custom-select">
-                                                    	<f:option value="true">Oui</f:option>
-                                                    	<f:option value="false">Non</f:option>
+                                                    	<f:option value="oui">Oui</f:option>
+                                                    	<f:option value="non">Non</f:option>
                                                     </f:select>
                                                 </div>   
                                             </div>
