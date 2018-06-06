@@ -107,7 +107,7 @@ public class VehiculeController {
 	@RequestMapping(path="/chercherParProprietaire")
 	public String chercherParProprietaire(Model model,@RequestParam(name="proprietaire.id") String id) {
 		String proprietaire=null;
-		List<Vehicule> vehicules=vehiculeSrv.selectAll(null,id);
+		List<Vehicule> vehicules=vehiculeSrv.selectAll("proprietaire",id);
 		List<Proprietaire> proprietaires=proprietaireSrv.selectAll();
 		
 		List<String>proprietairesMapped=vehicules.stream().map(p->p.getProprietaire().getNom().toUpperCase()+ " " +p.getProprietaire().getPrenom()).collect(Collectors.toList());
@@ -127,9 +127,24 @@ public class VehiculeController {
 			model.addAttribute("vehicules",vehicules);
 			return "espace-commercial/list_vehicule";
 		}
-		
 		return "redirect:vehicule/getVehicules";
-
+	}
+	
+	@RequestMapping(path="/chercherParCategorie")
+	public String chercherParCategorie(Model model,@RequestParam(name="categorie.id") String id) {
+		List<Vehicule> vehicules=vehiculeSrv.selectAll("categorie",id);
+		List<Proprietaire> proprietaires=proprietaireSrv.selectAll();
+		
+		if(!vehicules.isEmpty()) {
+			List<Categorie> categories=categorieSrv.selectAll();
+			model.addAttribute("categories",categories);
+			model.addAttribute("proprietaire", new Proprietaire());
+			model.addAttribute("vehicule",new Vehicule());
+			model.addAttribute("proprietaires", proprietaires);
+			model.addAttribute("vehicules",vehicules);
+			return "espace-commercial/list_vehicule";
+		}
+		return "redirect:vehicule/getVehicules";
 	}
 	
 	@RequestMapping(path="/enregistrer",method=RequestMethod.POST)
@@ -177,9 +192,9 @@ public class VehiculeController {
 		String response="";
 		
 		Categorie categorie=categorieSrv.getById(vehicule.getCategorie().getId());
+		vehicule.setCategorie(categorie);
 		Proprietaire proprietaire=proprietaireSrv.getById(vehicule.getProprietaire().getId());
 		vehicule.setProprietaire(proprietaire);
-		vehicule.setCategorie(categorie);
 		
 		if(vehicule.getId()!=null){
 			MultipartFile vehiculeImage = vehicule.getVehiculeImage();
@@ -205,6 +220,21 @@ public class VehiculeController {
 	        model.addAttribute("response_update", response);
 		}
         
+		return "redirect:/vehicule/getVehicules";
+	}
+	
+	@RequestMapping(path="/delete")
+	public String deleteVehicule(@RequestParam(name="id")String id,Model model){
+		String response;
+		
+		try{
+			vehiculeSrv.remove(Long.parseLong(id));
+			response="success";
+			model.addAttribute("response_delete",response);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
 		return "redirect:/vehicule/getVehicules";
 	}
 }

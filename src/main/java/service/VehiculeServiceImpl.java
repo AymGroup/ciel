@@ -25,9 +25,8 @@ public class VehiculeServiceImpl implements IService<Vehicule> {
 	}
 
 	@Override
-	public Vehicule update(Vehicule o) {
-		// TODO Auto-generated method stub
-		return null;
+	public Vehicule update(Vehicule v) {
+		return daoVehicule.update(v);
 	}
 
 	@Override
@@ -37,7 +36,7 @@ public class VehiculeServiceImpl implements IService<Vehicule> {
 
 	@Override
 	public List<Vehicule> selectAll(String sortField, String sort) {
-		return daoVehicule.selectAll(null,sort);
+		return daoVehicule.selectAll(sortField,sort);
 	}
 
 	@Override
@@ -47,7 +46,7 @@ public class VehiculeServiceImpl implements IService<Vehicule> {
 
 	@Override
 	public void remove(Long id) {
-		// TODO Auto-generated method stub
+		daoVehicule.remove(id);
 		
 	}
 

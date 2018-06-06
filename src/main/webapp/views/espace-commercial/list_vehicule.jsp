@@ -57,6 +57,7 @@
         	            $("#airConditioner").val(datas.airConditioner);
         	            $("#typeTransmission").val(datas.typeTransmission);
         	            $("#carburant").val(datas.carburant);
+        	            $("#id_prop").val(datas.proprietaire.id);
         	            //$("#idCatt").val(datas.categorie.libelle);
 
         	            $('#vehiculeImage').attr('src', "/car_rental/resources/uploaded/vehicule/"+datas.id+".png");
@@ -110,7 +111,7 @@
     <script type="text/javascript">
 	    $(document).ready(function(){
 	    	
-		      $('.deleteContrat').click(function(e){
+		      $('.deleteVehicule').click(function(e){
 		    	  
 		    	  if (!confirm("are you sure?")) {
 			    	  console.log("Opération annulé");
@@ -245,8 +246,8 @@
                                				<hr>  
                                				
                                				<div class="col-lg-6">
-	                               					<c:url value="/vehicule/chercherParProprietaire/${proprietaire.id }" var ="urlChercher" />
-	                               					<f:form action="${urlChercher}" modelAttribute="vehicule">
+	                               					<c:url value="/vehicule/chercherParCategorie/${categorie.id }" var ="urlChercherCat" />
+	                               					<f:form action="${urlChercherCat}" modelAttribute="vehicule">
 	                               					<div class="form-group">
 	                               						<label>Catégorie</label>
 	                                                    <f:select path="categorie.id" class="form-control custom-select" required="true">
@@ -301,7 +302,7 @@
 																			<span class="caret"></span></button>
 								                                    <ul class="dropdown-menu">
 								                                        <li><i class="fa fa-eye"></i><a class="getVehicule" href="${url_get_vehicule}"> View & Edit</a></li>
-								                                        <li><i class="fa fa-trash"></i><a class="deleteContrat" href="${url_delete_vehicule}"> Delete</a></li>
+								                                        <li><i class="fa fa-trash"></i><a class="deleteVehicule" href="${url_delete_vehicule}"> Delete</a></li>
 								                                    </ul>
                                 								</div>
 			                                                </td>
@@ -324,7 +325,7 @@
                         			<div class="card card-outline-primary">
                             			<div class="card-body">
                             			
-                            				<c:url value="/vehiculet/edit" var ="urlEdit" />
+                            				<c:url value="/vehicule/edit" var ="urlEdit" />
                                 			<f:form id="myforme" modelAttribute="vehicule" action="${urlEdit }">
                                    		 		<div class="form-body">
                                    		 			<!-- # Contrat Détails -->
@@ -347,6 +348,7 @@
 			                                                    	<f:option value="land rover">Land Rover</f:option>
                                                 				</f:select> 
 						        								<f:input path="id" type="hidden" />
+						        								<f:input id="id_prop" path="proprietaire.id" type="hidden" />
 						        							</div>
 						        						</div>
                                         				<div class="col-lg-6">
