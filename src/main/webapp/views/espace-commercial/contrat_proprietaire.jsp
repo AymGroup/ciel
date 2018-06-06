@@ -141,7 +141,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Date fin contrat</label>
-                                                    <f:input path="dateAchat" type="date" class="form-control"  />
+                                                    <f:input path="dateFin" type="date" class="form-control"  />
                                                     
                                                 </div>
                                                     
