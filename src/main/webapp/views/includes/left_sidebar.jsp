@@ -83,11 +83,14 @@
                                 <li><a href="table-datatable.html">Data Tables</a></li>
                             </ul>
                         </li>
+                        
+                        <!-- OPTIONS MENU -->
+                        <c:url value="/option_reservation/nouveau" var="url_option_reservation"></c:url> 
                         <li class="nav-label"></li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-columns"></i><span class="hide-menu">Options</span></a>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cog"></i><span class="hide-menu">Options</span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="layout-blank.html">Blank</a></li>
-                                <li><a href="layout-boxed.html">Boxed</a></li>
+                                <li><a href="${url_option_reservation }">Nouvelle option</a></li>
+                                <li><a href="layout-boxed.html">Liste des options</a></li>
                      
                             </ul>
                         </li>

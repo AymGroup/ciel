@@ -13,7 +13,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="<%=request.getContextPath() %>/resources/images/logo_car_rental.png">
-    <title>Nouveau catégorie - Espace commercial</title>
+    <title>Nouveau option réservation - Espace commercial</title>
     <!-- Bootstrap Core CSS -->
     <link href="/car_rental/resources/css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -37,7 +37,7 @@
     	            	  maxlength: 25,
     	                  required: true
     	              },
-    	              "categorieImage":{
+    	              "tarif":{
         	              required: true
         	          },
     	              "description": {
@@ -78,11 +78,11 @@
             <!-- Bread crumb -->
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-primary">Espace Réservation</h3> </div>
+                    <h3 class="text-primary">Espace des packs</h3> </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Nouvelle réservation</li>
+                        <li class="breadcrumb-item active">Nouveau pack</li>
                     </ol>
                 </div>
             </div>
@@ -92,71 +92,66 @@
                 <!-- Start Page Content -->
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="col-md-12">
-                        <div class="card">
-                        
-                        <c:url value="/reservation/enregistrer" var ="urlEnregistrer" />
-                        <f:form id="myform" modelAttribute="reservation" action="${urlEnregistrer }" method="POST">
-                            <div class="card-body p-b-0">
-                                <h4 class="card-title">Nouvelle réservation</h4>
-                                <hr>
-                                <!-- Nav tabs -->
-                                <ul class="nav nav-tabs customtab" role="tablist">
-                                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home2" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Détails réservation</span></a> </li>
-                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile2" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Ligne réservation</span></a> </li>
-                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages2" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Messages</span></a> </li>
-                                </ul>
-                                <!-- Tab panes -->
-                                <div class="tab-content">
-                                    <div class="tab-pane active" id="home2" role="tabpanel">
-                                        <div class="p-20">
-                                        	
-	                                            <div class="col-md-6">
-	                                                <div class="form-group">
-	                                                    <label class="control-label">Date debut réservation</label>
-	                                                    <f:input path="dateResevation" class="form-control" type="date"  />
-	                                                </div>
-	                                            </div>
-	                                            <div class="col-md-6">
-	                                                <div class="form-group">
-	                                                    <label class="control-label">Date fin réservation</label>
-	                                                    <f:input path="dateFinResevation" class="form-control" type="date"  />
-	                                                </div>
-	                                            </div>
-	                                            <div class="col-md-6">
-	                                            <f:select path="client.id" class="form-control custom-select" required="true">
-                                                        <f:option selected="selected" value="" readonly="true" disabled="true">-- Choisissez un client --</f:option>
-                                                        <c:forEach var="client"  items="${clients}">
-                                                        	<f:option value="${client.id }">${client.nom} ${client.prenom}</f:option>
-                                                        </c:forEach>                                                 
-                                                    </f:select>
-                                                </div>
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane  p-20" id="profile2" role="tabpanel">
-                                    
-                                    
-                                    		 <div class="col-md-6">
+                        <div class="card card-outline-primary">
+                            <!--<div class="card-header" style="background-color:#ef5350;border-color:#ef5350">
+                                <h4 class="m-b-0 text-white">Nouveau Client</h4>
+                            </div>-->
+                            <div class="card-body">
+                            
+                            	<c:url value="/pack/enregistrer" var ="urlEnregistrer" />
+                                <f:form id="myform" modelAttribute="pack" action="${urlEnregistrer }">
+                                    <div class="form-body">
+
+									<!-- Alert messages -->
+									<c:choose>
+										  <c:when test="${response =='error'}">
+										    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+						  						<strong>Error !</strong> You should check in on some of those fields below.
+						  						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						    						<span aria-hidden="true">&times;</span>
+						  						</button>
+											</div>
+										  </c:when>
+								   </c:choose>
+								   <!-- # End Alert -->
+
+                                        <h3 class="card-title m-t-15">Nouvelle option réservation</h3>
+                                        <hr>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Options Réservation</label>
-                                                    <f:checkboxes items="${options }" path="options"/>
+                                                    <label class="control-label">Libellé</label>
+                                                    <f:input path="libelle" class="form-control"  />
+                                                </div>
+                                                    
+                                            </div>
+                                            <!--/span-->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Description</label>
+                                                    <f:input path="description" class="form-control"  />
+                                                </div>
+                                                    
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Tarif</label>
+                                                    <f:input path="tarif" class="form-control"  />
                                                 </div> 
                                             </div>
                                             <!--/span-->
-                                            <div class="form-actions">
-                                        		<button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Save</button>
-                                        		<button type="reset" class="btn btn-inverse">Cancel</button>
-                                    		</div>
+                                        </div>
+                                        <!--/row-->
+                                        
                                     </div>
-                                    <div class="tab-pane p-20" id="messages2" role="tabpanel">3</div>
-                                </div>
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Save</button>
+                                        <button type="reset" class="btn btn-inverse">Cancel</button>
+                                    </div>
+                                </f:form>
                             </div>
-                          </f:form>
                         </div>
                     </div>
-                    </div>
-
                 </div>
                 
                 <!-- Row -->

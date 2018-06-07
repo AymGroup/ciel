@@ -12,6 +12,7 @@ public class Pack {
 	private Long id;
 	private String libelle;
 	private String description;
+	private double tarif;
 	
 	public Pack() {
 		super();
@@ -36,11 +37,17 @@ public class Pack {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	public Pack(String libelle, String description) {
+	public double getTarif() {
+		return tarif;
+	}
+	public void setTarif(double tarif) {
+		this.tarif = tarif;
+	}
+	public Pack(String libelle, String description,double tarif) {
 		super();
 		this.libelle = libelle;
 		this.description = description;
+		this.tarif=tarif;
 	}
 	
 	

@@ -12,7 +12,7 @@
         
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.show_sql">true</property>
-        <!--<property name="hibernate.hbm2ddl.auto">create</property>-->
+        <property name="hibernate.hbm2ddl.auto">create</property>
         
         <!-- Classes Models -->
         
@@ -23,6 +23,7 @@
         <mapping class="models.Contrat"/>
         <mapping class="models.Categorie"/>
         <mapping class="models.Vehicule"/>
+        <mapping class="models.Pack"/>
         <!--<mapping class="models.AddressVehicule"/>
         <mapping class="models.Categorie"/>
         <mapping class="models.Reservation"/>-->
