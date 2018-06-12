@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -75,7 +76,8 @@ public class ClientDaoImpl implements IDao<Client> {
 		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
 
 		Criteria cr = s.createCriteria(Client.class); 
-		cr.add(Restrictions.eq("address.city",sort));
+		cr.createAlias("address", "adr");
+		cr.add(Restrictions.eq("adr.city",sort));
 		List<Client> results = cr.list();
 		
 		return results;

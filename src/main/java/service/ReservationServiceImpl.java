@@ -22,9 +22,8 @@ public class ReservationServiceImpl implements IService<Reservation> {
 	}
 
 	@Override
-	public Reservation update(Reservation o) {
-		// TODO Auto-generated method stub
-		return null;
+	public Reservation update(Reservation r) {
+		return daoReservation.update(r);
 	}
 
 	@Override
@@ -41,8 +40,7 @@ public class ReservationServiceImpl implements IService<Reservation> {
 
 	@Override
 	public Reservation getById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return daoReservation.getById(id);
 	}
 
 	@Override

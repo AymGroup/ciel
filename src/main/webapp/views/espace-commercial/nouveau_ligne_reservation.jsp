@@ -13,7 +13,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="<%=request.getContextPath() %>/resources/images/logo_car_rental.png">
-    <title>Nouveau catégorie - Espace commercial</title>
+    <title>Nouvelle ligne réservation - Espace commercial</title>
     <!-- Bootstrap Core CSS -->
     <link href="/car_rental/resources/css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -78,11 +78,11 @@
             <!-- Bread crumb -->
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-primary">Espace Réservation</h3> </div>
+                    <h3 class="text-primary">Espace Ligne Réservation</h3> </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Nouvelle réservation</li>
+                        <li class="breadcrumb-item active">Nouvelle ligne réservation</li>
                     </ol>
                 </div>
             </div>
@@ -98,12 +98,20 @@
                             </div>-->
                             <div class="card-body">
                             
-                            	 <c:url value="/reservation/enregistrer" var ="urlEnregistrer" />
-                       			 <f:form id="myform" modelAttribute="reservation" action="${urlEnregistrer }" method="POST">
+                            	 <c:url value="/reservation/enregistrerLigneReservation" var ="urlEnregistrer" />
+                       			 <f:form id="myform" modelAttribute="ligne_reservation" action="${urlEnregistrer }" method="POST">
                                     <div class="form-body">
 
 									<!-- Alert messages -->
 									<c:choose>
+										<c:when test="${response =='success'}">
+										    <div class="alert alert-success alert-dismissible fade show" role="alert">
+						  						<strong>Success !</strong> You should check in on some of those fields below.
+						  						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						    						<span aria-hidden="true">&times;</span>
+						  						</button>
+											</div>
+										  </c:when>
 										  <c:when test="${response =='error'}">
 										    <div class="alert alert-danger alert-dismissible fade show" role="alert">
 						  						<strong>Error !</strong> You should check in on some of those fields below.
@@ -115,43 +123,20 @@
 								   </c:choose>
 								   <!-- # End Alert -->
 
-                                        <h3 class="card-title m-t-15">Nouvelle réservation</h3>
+                                        <h3 class="card-title m-t-15">Nouvelle ligne réservation</h3>
                                         <hr>
                                         <div class="row p-t-20">
                                             <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Date debut réservation</label>
-	                                                <f:input path="dateResevation" class="form-control" type="date"  />                                                
-	                                             </div> 
-                                            </div>
-                                            <!--/span-->
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Date fin réservation</label>
-	                                                <f:input path="dateFinResevation" class="form-control" type="date"  />
-                                                </div>  
-                                            </div>
-                                            <div class="col-md-12">
 	                                            	<div class="form-group">
-	                                            		<label class="control-label">Client</label>
-			                                            <f:select path="client.id" class="form-control custom-select" required="true">
-		                                                        <f:option selected="selected" value="" readonly="true" disabled="true">-- Choisissez un client --</f:option>
-		                                                        <c:forEach var="client"  items="${clients}">
-		                                                        	<f:option value="${client.id }">${client.nom} ${client.prenom}</f:option>
+	                                            		<label class="control-label">Véhicule</label>
+	                                            		<f:input path="reservation.id" type="hidden" value="${param.id_reservation }"/>
+			                                            <f:select path="vehicule.id" class="form-control custom-select" required="true">
+		                                                        <f:option selected="selected" value="" readonly="true" disabled="true">-- Choisissez une véhicule --</f:option>
+		                                                        <c:forEach var="vehicule"  items="${vehicules}">
+		                                                        	<f:option value="${vehicule.id }">${vehicule.marque} - ${vehicule.modele}</f:option>
 		                                                        </c:forEach>                                                 
 		                                                </f:select>
                                                     </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Pack Options</label>
-                                                    <f:select path="pack.id" class="form-control custom-select" required="true">
-                                                        <f:option selected="selected" value="" readonly="true" disabled="true">-- Choisissez un pack --</f:option>
-                                                        <c:forEach var="p"  items="${packs}">
-                                                        	<f:option value="${p.id }">${p.libelle}</f:option>
-                                                        </c:forEach>                                                 
-                                                    </f:select>
-                                                </div> 
                                             </div>
                                             <!--/span-->
                                         </div>
@@ -168,6 +153,84 @@
                     </div>
                 </div>
                 <!-- Row -->
+                
+                <!-- Second Row -->
+                <div class="row">
+                	<div class="col-lg-12">
+                		<div class="card card-outline-primary">
+                		 	<div class="card-body">
+                		 	<h4 class="card-title">Détail réservation</h4>
+                		 	<hr>
+                		 		<div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Date Réservation</th>
+                                                <th>Date Fin Réservation</th>
+                                                <th>Client</th>
+                                                <th>Pack</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        
+                                        <c:forEach var="rd" items="${reservationDetail }">
+                                            <tr>
+                                                <th scope="row">${rd.id }</th>
+                                                <td>${rd.dateResevation }</td>
+                                                <td>${rd.dateFinResevation }</td>
+                                                <td>${rd.client.nom } ${rd.client.prenom }</td>
+                                                <td>${rd.pack.libelle }</td>
+                                                <td class="color-primary">${rd.tarifTotal }</td>
+                                            </tr>
+                                        </c:forEach>
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                		 	</div>
+                		</div>
+                	</div>
+                </div>
+                <!-- /End -->
+                
+                <c:if test="${ligneRes == 'ok' }">
+                <div class="row">
+                	<div class="col-lg-12">
+                		<div class="card card-outline-primary">
+                		 	<div class="card-body">
+                		 	<h4 class="card-title">Liste des ligne réservations</h4>
+                		 		<div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Réservation</th>
+                                                <th>Véhicule</th>
+                                                <th>Tarif</th>
+                                                <th>Last Touched</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach var="l" items="${ligneReservations }">
+                                            <tr>
+                                                <th scope="row">${l.id}</th>
+                                                <td>${l.reservation.id }</td>
+                                                <td>${l.vehicule.marque } ${l.vehicule.modele }</td>
+                                                <td>${l.tarif }</td>
+                                                <td class="color-primary">${l.lastTouched }</td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                		 	</div>
+                		</div>
+                	</div>
+                </div>
+                </c:if>
+                
                 <!-- End PAge Content -->
             </div>
             <!-- End Container fluid  -->

@@ -1,5 +1,7 @@
 package models;
 
+
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 @Entity
 public class LigneReservation {
 
@@ -18,17 +22,38 @@ public class LigneReservation {
 	@GeneratedValue
 	@Column(name="ID_LIGNE_RESERVATION")
 	private Long id;
-	@Column(nullable=false)
+	/*@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateDebut;
 	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dateFin;
+	private Date dateFin;*/
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastTouched;
 	
+	public Date getLastTouched() {
+		return lastTouched;
+	}
+	public void setLastTouched(Date lastTouched) {
+		this.lastTouched = lastTouched;
+	}
 	@ManyToOne
 	@JoinColumn(name="ID_VEHICULE")
 	private Vehicule vehicule;
 	
+	@ManyToOne
+	@JoinColumn(name="ID_RESERVATION")
+	private Reservation reservation;
+	
+	private double tarif;
+	
+	public double getTarif() {
+		return tarif;
+	}
+	public void setTarif(double tarif) {
+		this.tarif = tarif;
+	}
 	public LigneReservation() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -45,22 +70,11 @@ public class LigneReservation {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Date getDateDebut() {
-		return dateDebut;
+	public Reservation getReservation() {
+		return reservation;
 	}
-	public void setDateDebut(Date dateDebut) {
-		this.dateDebut = dateDebut;
-	}
-	public Date getDateFin() {
-		return dateFin;
-	}
-	public void setDateFin(Date dateFin) {
-		this.dateFin = dateFin;
-	}
-	public LigneReservation(Date dateDebut, Date dateFin) {
-		super();
-		this.dateDebut = dateDebut;
-		this.dateFin = dateFin;
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
 	}
 	
 }

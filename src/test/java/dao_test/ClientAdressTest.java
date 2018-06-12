@@ -15,12 +15,14 @@ public class ClientAdressTest {
 		IDao<Client> daoClt=new ClientDaoImpl();
 		IDao<Address> daoAdr=new AddressDaoImpl();
 		
-		//Client c1=new Client("Aymen", "Mankari", "0680127349", "Monsieur", "RFC56452987L","aymen@gmail.com");
+		Client c1=new Client("Aymen", "Mankari", "0680127349", "Monsieur", "RFC56452987L","aymen@gmail.com");
+		Address adr=new Address("Rue01","Casablanca","Maarif",20600);
 		
+		//daoClt.save(c1);
 		//daoClt.save(c1);
 		
 		//Client clt=daoClt.getById(new Long(1));
-		daoClt.remove(new Long(1));
+		//daoClt.remove(new Long(1));
 		//System.out.println(clt.toString());
 		
 		/*Address adr=new Address("Rue01","Casablanca","Maarif",20600);
@@ -32,7 +34,9 @@ public class ClientAdressTest {
 		//List<Client> list= daoClt.selectAll();
 		//list.forEach(c->System.out.println(c.toString()));
 		
+		List<Client> cltByCity=daoClt.selectAll("feat","casablanca");
 		
+		cltByCity.forEach(c->System.out.println(c.getAddress().getCity()));
 		
 		
 		

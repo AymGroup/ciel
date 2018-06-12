@@ -8,18 +8,20 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import hibernate.utils.HibernateAnnotationUtil;
-import models.Categorie;
-import models.Reservation;
+import models.LigneReservation;
 
-public class ReservationDaoImpl implements IDao<Reservation> {
+public class LigneReservationDaoImpl implements IDao<LigneReservation> {
 
-	public Reservation save(Reservation r) {
+	
+	@Override
+	public LigneReservation save(LigneReservation l) {
 		boolean rep=false;
+
 		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
 		Transaction tx=null;
 		try {
 			tx=s.beginTransaction();
-			s.save(r);
+			s.save(l);
 			tx.commit();
 			rep=true;
 		}catch(Exception e) {
@@ -30,27 +32,28 @@ public class ReservationDaoImpl implements IDao<Reservation> {
 			s.close();
 		}
 		
-		if(rep)return r;
+		if(rep)return l;
 		else return null;
 	}
 
-	public List<Reservation> selectAll() {
+	@Override
+	public List<LigneReservation> selectAll() {
 		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
-		Criteria cr = s.createCriteria(Reservation.class);
-		List<Reservation> results = cr.list();
-		
+		Criteria cr = s.createCriteria(LigneReservation.class);
+		List<LigneReservation> results = cr.list();
+
 		return results;
 	}
 
 	@Override
-	public Reservation update(Reservation r) {
+	public LigneReservation update(LigneReservation l) {
 		Boolean rep=false;
 		
 		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
 		Transaction tx=null;
 		try {
 			tx=s.beginTransaction();
-			s.saveOrUpdate(r);
+			s.saveOrUpdate(l);
 			tx.commit();
 			rep=true;
 		}catch(Exception e) {
@@ -61,28 +64,25 @@ public class ReservationDaoImpl implements IDao<Reservation> {
 			s.close();
 		}
 		
-		if(rep)return r;
+		if(rep)return l;
 			else return null;
 	}
 
 	@Override
-	public List<Reservation> selectAll(String sortField, String sort) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<LigneReservation> selectAll(String sortField, String sort) {
+		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
+
+		Criteria cr = s.createCriteria(LigneReservation.class); 
+		cr.add(Restrictions.eq("reservation.id",Long.parseLong(sort)));
+		List<LigneReservation> results = cr.list();
+		
+		return results;
 	}
 
 	@Override
-	public Reservation getById(Long id) {
-		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
-
-		Criteria cr = s.createCriteria(Reservation.class); 
-		cr.add(Restrictions.eq("id",new Long(id)));
-		Reservation reservation=(Reservation) cr.uniqueResult();
-		
-		if(reservation!=null){
-			return reservation;
-		}else
-			return null;
+	public LigneReservation getById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public class ReservationDaoImpl implements IDao<Reservation> {
 	}
 
 	@Override
-	public Reservation findOne(String paramName, Object paramValue) {
+	public LigneReservation findOne(String paramName, Object paramValue) {
 		// TODO Auto-generated method stub
 		return null;
 	}

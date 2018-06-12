@@ -29,17 +29,17 @@ public class Client extends Person {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Address getAddress() {
-		return address;
-	}
-	public void setAddress(Address address) {
-		this.address = address;
-	}
 	public String getNumPermis() {
 		return numPermis;
 	}
 	public void setNumPermis(String numPermis) {
 		this.numPermis = numPermis;
+	}
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 	public MultipartFile getUserImage() {
 		return userImage;

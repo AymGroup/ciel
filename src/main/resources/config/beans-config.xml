@@ -11,6 +11,7 @@
 		<bean id="vehiculeDao" class="dao.VehiculeDaoImpl"></bean>
 		<bean id="packDao" class="dao.PackDaoImpl"></bean>
 		<bean id="reservationDao" class="dao.ReservationDaoImpl"></bean>
+		<bean id="ligneReservationDao" class="dao.LigneReservationDaoImpl"></bean>
 		
 		<!-- Client - Injection -->
 		<bean id="clientServices" class="service.ClientServiceImpl">
@@ -63,6 +64,11 @@
 			<property name="packSrv" ref="packServices"></property>
 		</bean>
 		
+		<!-- Ligne Reservation - Injection -->
+		<bean id="ligneReservationsServices" class="service.LigneReservationServiceImpl">
+			<property name="daoLigneReservation" ref="ligneReservationDao"></property>
+		</bean>	
+		
 		<!-- Reservation - Injection -->
 		<bean id="reservationServices" class="service.ReservationServiceImpl">
 			<property name="daoReservation" ref="reservationDao"></property>
@@ -70,7 +76,13 @@
 		<bean id="reservationController" class="web.ReservationController">
 			<property name="reservationSrv" ref="reservationServices"></property>
 			<property name="packSrv" ref="packServices"></property>
+			<property name="categorieSrv" ref="categorieServices"></property>
+			<property name="clientSrv" ref="clientServices"></property>
+			<property name="vehiculeSrv" ref="vehiculeService"></property>
+			<property name="ligneReservationSrv" ref="ligneReservationsServices"></property>
 		</bean>
+		
+			
 		
 
 		

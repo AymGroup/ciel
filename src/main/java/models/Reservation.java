@@ -27,17 +27,11 @@ public class Reservation {
 	@Column(nullable=false)
 	private String dateFinResevation;
 	
+	private double tarifTotal;
+	
 	@ManyToOne
 	@JoinColumn(name="ID")
 	private Client client;
-	
-	//@OneToMany
-	//@JoinColumn(name="ID_OPTION_RESERVATION")
-	//private Set<OptionReservation> optionReservation;
-	
-	//@OneToMany
-	//@JoinColumn(name="ID_LIGNE_RESERVATION")
-	//private Set<LigneReservation> ligneReservation;
 	
 	@ManyToOne
 	@JoinColumn(name="ID_PACK")
@@ -69,24 +63,18 @@ public class Reservation {
 	public void setDateFinResevation(String dateFinResevation) {
 		this.dateFinResevation = dateFinResevation;
 	}
+	public double getTarifTotal() {
+		return tarifTotal;
+	}
+	public void setTarifTotal(double tarifTotal) {
+		this.tarifTotal = tarifTotal;
+	}
 	public Client getClient() {
 		return client;
 	}
 	public void setClient(Client client) {
 		this.client = client;
 	}
-	/*public Set<OptionReservation> getOptionReservation() {
-		return optionReservation;
-	}
-	public void setOptionReservation(Set<OptionReservation> optionReservation) {
-		this.optionReservation = optionReservation;
-	}*/
-	/*public Set<LigneReservation> getLigneReservation() {
-		return ligneReservation;
-	}
-	public void setLigneReservation(Set<LigneReservation> ligneReservation) {
-		this.ligneReservation = ligneReservation;
-	}*/
 	public Pack getPack() {
 		return pack;
 	}

@@ -14,10 +14,12 @@
                                 <li><a href="index1.html">Analytics </a></li>
                             </ul> --> 
                         </li>
+                        <!-- RESERVATION MENU -->
+                        <c:url value="/reservation/nouveau" var="url_reservation"></c:url>
                         <li class="nav-label">Main Menu</li>
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-paperclip"></i><span class="hide-menu">Réservations</span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="#">Nouvelle réservation</a></li>
+                                <li><a href="${url_reservation }">Nouvelle réservation</a></li>
                                 <li><a href="#">Mon planning</a></li>
                                 <li><a href="#">Liste des réservations</a></li>
                                 <li><a href="#">Liste des factures</a></li>
@@ -84,13 +86,13 @@
                             </ul>
                         </li>
                         
-                        <!-- OPTIONS MENU -->
-                        <c:url value="/option_reservation/nouveau" var="url_option_reservation"></c:url> 
+                        <!-- PACK MENU -->
+                        <c:url value="/pack/nouveau" var="url_pack"></c:url> 
                         <li class="nav-label"></li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cog"></i><span class="hide-menu">Options</span></a>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cog"></i><span class="hide-menu">Pack</span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="${url_option_reservation }">Nouvelle option</a></li>
-                                <li><a href="layout-boxed.html">Liste des options</a></li>
+                                <li><a href="${url_pack }">Nouveau pack</a></li>
+                                <li><a href="layout-boxed.html">Liste des packs</a></li>
                      
                             </ul>
                         </li>

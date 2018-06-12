@@ -32,8 +32,7 @@ public class PackServiceImpl implements IService<Pack> {
 
 	@Override
 	public List<Pack> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return daoPack.selectAll();
 	}
 
 	@Override
@@ -44,14 +43,12 @@ public class PackServiceImpl implements IService<Pack> {
 
 	@Override
 	public Pack getById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return daoPack.getById(id);
 	}
 
 	@Override
 	public void remove(Long id) {
-		// TODO Auto-generated method stub
-		
+		daoPack.remove(id);
 	}
 
 	@Override

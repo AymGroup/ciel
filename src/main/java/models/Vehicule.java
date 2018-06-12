@@ -44,6 +44,9 @@ public class Vehicule {
 	private String typeTransmission;
 	@Column(nullable=false,length=15)
 	private String carburant;
+	
+	private double tarifJour;
+	
 	@Column(length=15)
 	private String onService;
 
@@ -129,6 +132,12 @@ public class Vehicule {
 	}
 	public String getTypeTransmission() {
 		return typeTransmission;
+	}
+	public double getTarifJour() {
+		return tarifJour;
+	}
+	public void setTarifJour(double tarifJour) {
+		this.tarifJour = tarifJour;
 	}
 	public void setTypeTransmission(String typeTransmission) {
 		this.typeTransmission = typeTransmission;

@@ -2,10 +2,13 @@ package dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 import hibernate.utils.HibernateAnnotationUtil;
+import models.Client;
 import models.Pack;
 
 public class PackDaoImpl implements IDao<Pack> {
@@ -35,8 +38,10 @@ public class PackDaoImpl implements IDao<Pack> {
 
 	@Override
 	public List<Pack> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
+		Criteria cr = s.createCriteria(Pack.class);
+		List<Pack> results = cr.list();
+		return results;
 	}
 
 	@Override
@@ -53,8 +58,16 @@ public class PackDaoImpl implements IDao<Pack> {
 
 	@Override
 	public Pack getById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
+
+		Criteria cr = s.createCriteria(Pack.class); 
+		cr.add(Restrictions.eq("id",new Long(id)));
+		Pack pack=(Pack) cr.uniqueResult();
+		
+		if(pack!=null){
+			return pack;
+		}else
+			return null;
 	}
 
 	@Override
