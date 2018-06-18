@@ -39,10 +39,11 @@
                         <!-- VEHICULE MENU -->
                         <c:url value="/vehicule/nouveau" var="url_vehicule"></c:url>
                         <c:url value="/vehicule/getVehicules" var="url_vehicule_list"></c:url>
+                        <c:url value="/reservation/showVehiculesOnService" var="url_vehicule_service"></c:url>
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-road"></i><span class="hide-menu">Véhicules</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="${url_vehicule }">Nouvelle véhicule</a></li>
-                                <li><a href="#">Véhicule en service</a></li>
+                                <li><a href="${url_vehicule_service }">Véhicule en service</a></li>
                                 <li><a href="#">Véhicule hors service</a></li>
                                 <li><a href="${url_vehicule_list }">Liste des véhicules</a></li>
                             </ul>

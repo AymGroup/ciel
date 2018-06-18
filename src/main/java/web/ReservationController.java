@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -93,6 +94,12 @@ public class ReservationController {
 	   return mv;
 	}
 	
+	/**
+	 * Saving reservation.
+	 * @param model       : model object.
+	 * @param reservation : reservation data.
+	 * @return
+	 */
 	@RequestMapping(path="/enregistrer",method=RequestMethod.POST)
 	public String saveReservation(Model model,Reservation reservation){
 		
@@ -113,28 +120,34 @@ public class ReservationController {
 		return "redirect:/reservation/nouveau";
 	}
 	
+	/**
+	 * Show ligne reservation form.
+	 * @return
+	 */
 	@RequestMapping(path="/showFormLigneReservation",method=RequestMethod.GET)
 	public ModelAndView showFormLigneReservation(){
 		List<Reservation> reservationDetail=new ArrayList<>();
 		reservationDetail.add(reservationSrv.getById(idReservation));
 		ModelAndView mv=new ModelAndView("espace-commercial/nouveau_ligne_reservation","ligne_reservation",new LigneReservation());
 		mv.addObject("reservationDetail",reservationDetail);
-		mv.addObject("vehicules",vehiculeSrv.selectAll());
+		mv.addObject("vehicules",vehiculeSrv.selectAll("onService",""));
 		return mv;
 	}
 	
-	
+	/**
+	 * Saving ligneReservation Data.
+	 * @param ligneReservation : ligneReservation data.
+	 * @return
+	 */
 	@RequestMapping(path="/enregistrerLigneReservation")
 	public ModelAndView saveLigneRes(LigneReservation ligneReservation){
 		ModelAndView mv=new ModelAndView();
-		String response="";
-
+		String response="";double tarifVehicule=0;
+		
 		Vehicule v=vehiculeSrv.getById(ligneReservation.getVehicule().getId());
 		Reservation r=reservationSrv.getById(idReservation);
 		ligneReservation.setVehicule(v);
 		ligneReservation.setReservation(r);
-		
-		double tarifVehicule=0;
 		
 		// # GETTING THE DIFFERENCE BETWEEN THE TWO DATES
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -143,7 +156,7 @@ public class ReservationController {
 			Date dateF = sdf.parse(this.dateFin);
 			long diffInMillies = Math.abs(dateD.getTime() - dateF.getTime());
 			long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-			System.out.println(diff);
+			System.out.println("Difference between two dates : "+diff);
 			tarifVehicule=v.getTarifJour()*diff;
 			ligneReservation.setTarif(tarifVehicule);
 			
@@ -153,6 +166,7 @@ public class ReservationController {
 		
 		if(ligneReservationSrv.save(ligneReservation)!=null){
 			
+			// # UPDATING DATA - Reservation & Vehicule
 			double oldTarifTotal=r.getTarifTotal();
 			r.setTarifTotal(oldTarifTotal+tarifVehicule);
 			v.setOnService("En Service");
@@ -170,7 +184,7 @@ public class ReservationController {
 			mv.addObject("id_reservation",r.getId());
 			mv.addObject("ligneReservations",ligneReservationSrv.selectAll(null,String.valueOf(r.getId())));
 			mv.addObject("reservationDetail",reservationDetail);
-			mv.addObject("vehicules",vehiculeSrv.selectAll());
+			mv.addObject("vehicules",vehiculeSrv.selectAll("onService",""));
 			mv.setViewName("espace-commercial/nouveau_ligne_reservation");
 			return mv;
 		}
@@ -180,5 +194,15 @@ public class ReservationController {
 		mv.setViewName("redirect:/reservation/showFormLigneReservation");
 		return mv;
 	}
-
+	
+	@RequestMapping(path="/showVehiculesOnService")
+	public ModelAndView showVehiculesOnService(){
+		ModelAndView mv=new ModelAndView();
+		mv.setViewName("espace-commercial/list_vehicule_en_service");
+		mv.addObject("ligneReservation", new LigneReservation());
+		mv.addObject("vehiculesReserved", ligneReservationSrv.selectAll());
+		return mv;
+		
+	}
+	
 }

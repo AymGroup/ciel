@@ -127,7 +127,7 @@ public class VehiculeController {
 			model.addAttribute("vehicules",vehicules);
 			return "espace-commercial/list_vehicule";
 		}
-		return "redirect:vehicule/getVehicules";
+		return "redirect:/vehicule/getVehicules";
 	}
 	
 	@RequestMapping(path="/chercherParCategorie")
@@ -144,7 +144,7 @@ public class VehiculeController {
 			model.addAttribute("vehicules",vehicules);
 			return "espace-commercial/list_vehicule";
 		}
-		return "redirect:vehicule/getVehicules";
+		return "redirect:/vehicule/getVehicules";
 	}
 	
 	@RequestMapping(path="/enregistrer",method=RequestMethod.POST)

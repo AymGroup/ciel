@@ -233,6 +233,13 @@
                                                     
                                                 </div> 
                                             </div>
+                                            
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Tarif du jour</label>
+                                                    <f:input path="tarifJour" class="form-control"  />
+                                                </div>   
+                                            </div>
 
                                             <div class="col-md-6">
                                              	<div class="form-group">

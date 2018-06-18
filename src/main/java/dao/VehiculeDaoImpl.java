@@ -66,14 +66,18 @@ public class VehiculeDaoImpl implements IDao<Vehicule> {
 	}
 
 	@Override
-	public List<Vehicule> selectAll(String sortField, String id) {
+	public List<Vehicule> selectAll(String sortField, String criterion) {
 		Session s=HibernateAnnotationUtil.getSessionFactory().openSession();
 
 		Criteria cr = s.createCriteria(Vehicule.class); 
 		if(sortField.equals("categorie")){
-			cr.add(Restrictions.eq("categorie.id",Long.parseLong(id)));
+			cr.add(Restrictions.eq("categorie.id",Long.parseLong(criterion)));
+		}else if(sortField.equals("onService")){
+			cr.add(Restrictions.eq("onService", criterion));
+		}else if(sortField.equals("offService")){
+			cr.add(Restrictions.eq("onService", criterion));
 		}else{
-			cr.add(Restrictions.eq("proprietaire.id",Long.parseLong(id)));
+			cr.add(Restrictions.eq("proprietaire.id",Long.parseLong(criterion)));
 		}
 		List<Vehicule> results = cr.list();
 		
