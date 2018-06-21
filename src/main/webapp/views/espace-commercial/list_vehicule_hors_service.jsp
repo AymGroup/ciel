@@ -124,13 +124,13 @@
 			                                        </thead>
 			                                        <tbody>
 			                                        
-			                                        <c:forEach var="v" items="${vehicules}">
+			                                        <c:forEach var="v" items="${vehiculesOffService}">
 			                                            <tr>
 			                                                <td>${v.id }</td>
 			                                                <td>${v.marque }</td>
 			                                                <td>${v.modele }</td>
 			                                                <td>${v.puissanceFiscale }</td>
-			                                                <td>${v.dateAchat }</td>
+			                                                <td>${v.carburant }</td>
 			                                                <td>
 																<span class="badge badge-danger">Off Service</span>
 			                                                </td>

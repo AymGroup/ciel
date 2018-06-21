@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import models.Categorie;
 import models.Client;
 import models.Proprietaire;
+import models.User;
 import models.Vehicule;
 import service.IService;
 
@@ -60,16 +62,20 @@ public class VehiculeController {
 	}
 	
 	@RequestMapping(path="/nouveau",method=RequestMethod.GET)
-	public ModelAndView showForm(){
-		
-		List<Proprietaire> proprietaires=proprietaireSrv.selectAll();
-		List<Categorie> categories=categorieSrv.selectAll();
-		
-		ModelAndView mv=new ModelAndView("espace-commercial/nouveau_vehicule");
-		mv.addObject("vehicule", new Vehicule());
-		mv.addObject("proprietaires", proprietaires);
-		mv.addObject("categories", categories);
-		return mv;
+	public ModelAndView showForm(Model m,HttpSession session){
+		ModelAndView mv=new ModelAndView();
+		if(session.getAttribute("userLoged")!=null){
+			List<Proprietaire> proprietaires=proprietaireSrv.selectAll();
+			List<Categorie> categories=categorieSrv.selectAll();
+			mv.setViewName("espace-commercial/nouveau_vehicule");
+			mv.addObject("vehicule", new Vehicule());
+			mv.addObject("proprietaires", proprietaires);
+			mv.addObject("categories", categories);
+			return mv;
+		}
+		mv.setViewName("espace-commercial/login");
+		mv.addObject("user", new User());
+		return mv;	
 	}
 	
 	@RequestMapping(path="/getVehicules",method=RequestMethod.GET)

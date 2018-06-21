@@ -82,6 +82,12 @@
 			<property name="ligneReservationSrv" ref="ligneReservationsServices"></property>
 		</bean>
 		
+		<bean id="dashboardController" class="web.DashboardController">
+			<property name="reservationSrv" ref="reservationServices"></property>
+			<property name="clientSrv" ref="clientServices"></property>
+			<property name="vehiculeSrv" ref="vehiculeService"></property>
+		</bean>
+		
 			
 		
 

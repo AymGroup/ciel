@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="f" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,6 +19,44 @@
     <!-- Custom CSS -->
     <link href="<%=request.getContextPath() %>/resources/css/helper.css" rel="stylesheet">
     <link href="<%=request.getContextPath() %>/resources/css/style.css" rel="stylesheet">
+    
+    <!-- JQuery & validation -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+   <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+   
+   <script src="<%=request.getContextPath() %>/resources/js/scriptsJquery.js"></script>
+   
+   <!-- JQuery validation -->
+   
+   <script type="text/javascript">  
+   		jQuery.validator.addMethod("lettersonly", function(value, element) {
+	   		return this.optional(element) || /^[a-z]+$/i.test(value);
+	 	}, "Letters only please"); 
+   </script>
+   
+    <script>
+
+    	 $(document).ready(function(){
+    	      
+    	      $('#myform').validate({ // initialize the plugin
+    	          rules: {
+    	              "login": {
+    	                  required: true,
+    	                  lettersonly: true
+    	              },
+    	              "password": {
+    	                  required: true 
+    	              }
+    	          },
+    	      });
+    	 });
+    </script>
+    
+    <style type="text/css">
+    	.error {
+      		color: #e67e22;
+   		}
+    </style>
 </head>
 
 <body class="fix-header fix-sidebar">
@@ -35,14 +76,15 @@
                             <div class="login-form">
                                 <!--<h4>Login</h4>-->
                                 <img style="max-width: 50%;margin-left: 23%;margin-bottom:32px" src="<%=request.getContextPath() %>/resources/images/logo_car_rental.png" alt="">
-                                <form>
+                                <c:url value="/authentifier" var="authentification" />
+                                <f:form id="myform" modelAttribute="user" action="${authentification }">
                                     <div class="form-group">
-                                        <label>Email address</label>
-                                        <input type="email" class="form-control" placeholder="Email">
+                                        <label>Login</label>
+                                        <f:input path="login" class="form-control" placeholder="Login"/>
                                     </div>
                                     <div class="form-group">
                                         <label>Password</label>
-                                        <input type="password" class="form-control" placeholder="Password">
+                                        <f:input path="password" type="password" class="form-control" placeholder="Password"/>
                                     </div>
                                     <div class="checkbox">
                                         <label>
@@ -55,7 +97,7 @@
                                     </div>
                                     <button type="submit" class="btn btn-danger btn-flat m-b-30 m-t-30">Sign in</button>
                                     
-                                </form>
+                                </f:form>
                             </div>
                         </div>
                     </div>
@@ -66,7 +108,7 @@
     </div>
     <!-- End Wrapper -->
     <!-- All Jquery -->
-    <script src="<%=request.getContextPath() %>/resources/js/lib/jquery/jquery.min.js"></script>
+    <!--  <script src="<%=request.getContextPath() %>/resources/js/lib/jquery/jquery.min.js"></script>-->
     <!-- Bootstrap tether Core JavaScript -->
     <script src="<%=request.getContextPath() %>/resources/js/lib/bootstrap/js/popper.min.js"></script>
     <script src="<%=request.getContextPath() %>/resources/js/lib/bootstrap/js/bootstrap.min.js"></script>

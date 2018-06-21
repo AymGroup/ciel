@@ -8,7 +8,8 @@
                     <ul id="sidebarnav">
                         <li class="nav-devider"></li>
                         <li class="nav-label">Home</li>
-                        <li> <a href="#" aria-expanded="false"><i class="fa fa-tachometer"></i><span class="hide-menu">Dashboard </span></a>
+                         <c:url value="/dashboard/show" var="url_dashboard"></c:url>
+                        <li> <a href="${url_dashboard }" aria-expanded="false"><i class="fa fa-tachometer"></i><span class="hide-menu">Dashboard </span></a>
                            <!-- <ul aria-expanded="false" class="collapse">
                                 <li><a href="index.html">Ecommerce </a></li>
                                 <li><a href="index1.html">Analytics </a></li>
@@ -40,11 +41,12 @@
                         <c:url value="/vehicule/nouveau" var="url_vehicule"></c:url>
                         <c:url value="/vehicule/getVehicules" var="url_vehicule_list"></c:url>
                         <c:url value="/reservation/showVehiculesOnService" var="url_vehicule_service"></c:url>
+                        <c:url value="/reservation/showVehiculesHorsService" var="url_vehicule_hors_service"></c:url>
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-road"></i><span class="hide-menu">Véhicules</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="${url_vehicule }">Nouvelle véhicule</a></li>
                                 <li><a href="${url_vehicule_service }">Véhicule en service</a></li>
-                                <li><a href="#">Véhicule hors service</a></li>
+                                <li><a href="${url_vehicule_hors_service }">Véhicule hors service</a></li>
                                 <li><a href="${url_vehicule_list }">Liste des véhicules</a></li>
                             </ul>
                         </li>
@@ -73,32 +75,27 @@
                         <!-- CONTRAT MENU -->
                         <c:url value="/contrat/nouveau" var="url_contrat"></c:url> 
                         <c:url value="/contrat/getContrats" var="url_contrat_list"></c:url>   
-						<li> <a href="#" aria-expanded="false"><i class="fa fa-suitcase"></i><span class="hide-menu">Contrat propriétaire</span></a>
+						<li> <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-suitcase"></i><span class="hide-menu">Contrat propriétaire</span></a>
 							<ul aria-expanded="false" class="collapse">
                                 <li><a href="${url_contrat }">Nouveau contrat</a></li>
                                 <li><a href="${url_contrat_list }">Liste des contrats</a></li>
                             </ul>
 						</li>
                         
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-table"></i><span class="hide-menu">Tables</span></a>
+                        <c:url value="/pack/nouveau" var="url_pack"></c:url> 
+                        <li class="nav-label">EXTRA</li>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cog"></i><span class="hide-menu">Pack</span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="table-bootstrap.html">Basic Tables</a></li>
-                                <li><a href="table-datatable.html">Data Tables</a></li>
+                               <li><a href="${url_pack }">Nouveau pack</a></li>
+                                <li><a href="layout-boxed.html">Liste des packs</a></li>
                             </ul>
                         </li>
                         
-                        <!-- PACK MENU -->
-                        <c:url value="/pack/nouveau" var="url_pack"></c:url> 
-                        <li class="nav-label"></li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cog"></i><span class="hide-menu">Pack</span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="${url_pack }">Nouveau pack</a></li>
-                                <li><a href="layout-boxed.html">Liste des packs</a></li>
-                     
-                            </ul>
+                        <c:url value="/logout" var="url_logout"></c:url> 
+                        <li style="margin-top: 335px;"> <a  href="${url_logout }" aria-expanded="false"><i class="fa fa-arrow-right"></i><span class="hide-menu">Logout</span></a>
+                            
                         </li>
-                        <li class="nav-label">EXTRA</li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-book"></i><span class="hide-menu">Pages <span class="label label-rouded label-success pull-right">8</span></span></a>
+                        <!--<li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-book"></i><span class="hide-menu">Pages <span class="label label-rouded label-success pull-right">8</span></span></a>
                             <ul aria-expanded="false" class="collapse">
 
                                 <li><a href="#" class="has-arrow">Authentication <span class="label label-rounded label-success">6</span></a>
@@ -139,7 +136,7 @@
                                 </li>
                                 <li><a href="#">item 1.4</a></li>
                             </ul>
-                        </li>
+                        </li>-->
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->

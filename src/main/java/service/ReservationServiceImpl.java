@@ -28,8 +28,7 @@ public class ReservationServiceImpl implements IService<Reservation> {
 
 	@Override
 	public List<Reservation> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return daoReservation.selectAll();
 	}
 
 	@Override

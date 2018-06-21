@@ -205,4 +205,14 @@ public class ReservationController {
 		
 	}
 	
+	@RequestMapping(path="/showVehiculesHorsService")
+	public ModelAndView showVehiculesHorsService(){
+		List<Vehicule> vehiculesOffService=vehiculeSrv.selectAll("offService",null);
+		ModelAndView mv=new ModelAndView();
+		mv.setViewName("espace-commercial/list_vehicule_hors_service");
+		mv.addObject("vehiculesOffService",vehiculesOffService);
+		return mv;
+		
+	}
+	
 }

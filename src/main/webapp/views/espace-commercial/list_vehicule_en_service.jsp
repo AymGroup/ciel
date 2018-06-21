@@ -102,35 +102,6 @@
             <!-- Container fluid  -->
             <div class="container-fluid">
                 <!-- Start Page Content -->
-
-                	<!--<div class="row">
-                	 	<div class="col-lg-12">
-                	 		<div class="card">
-                            		<div class="card-body">
-                            			<h4 class="card-title">Recherche véhicules par status</h4>
-                               			<hr>  
-                               			<div class="col-lg-6">
-	                               					<c:url value="/reservation/searchByDateReservation" var ="urlChercherStatus" />
-	                               					<f:form action="${urlChercherStatus}" modelAttribute="ligneReservation">
-	                               					<div class="form-group">
-	                               						<label>Date début réservation</label>
-	                                                   	<f:input path="dateResevation" type="date"/>
-	                                                   	<label>Date fin réservation</label>
-	                                                   	<f:input path="dateFinResevation" type="date"/>
-	                                                 </div>
-	                                                 
-	                                                 <div class="form-actions">
-	                               						<button type="submit" class="btn btn-info btn-rounded m-b-10 m-l-5"><i class="fa fa-search"></i>Chercher</button>
-	                               					</div>
-	                                                  
-	                                                </f:form>
-                                         </div>
-                            		</div>
-                            </div>
-                	 	</div>
-                	</div>-->
-                	
-                	
                 			<div class="row">
                                	<div class="col-lg-12">	
                                		<div class="card">	

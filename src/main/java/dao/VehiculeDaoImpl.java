@@ -75,7 +75,7 @@ public class VehiculeDaoImpl implements IDao<Vehicule> {
 		}else if(sortField.equals("onService")){
 			cr.add(Restrictions.eq("onService", criterion));
 		}else if(sortField.equals("offService")){
-			cr.add(Restrictions.eq("onService", criterion));
+			cr.add(Restrictions.isNull("onService"));
 		}else{
 			cr.add(Restrictions.eq("proprietaire.id",Long.parseLong(criterion)));
 		}

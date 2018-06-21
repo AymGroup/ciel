@@ -1,3 +1,4 @@
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <div class="header">
             <nav class="navbar top-navbar navbar-expand-md navbar-light">
                 <!-- Logo -->
@@ -187,10 +188,9 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                                 <ul class="dropdown-user">
-                                    <li><a href="#"><i class="ti-user"></i> Profile</a></li>
-                                    <li><a href="#"><i class="ti-wallet"></i> Balance</a></li>
+                                	<li><a><i class="fa fa-user"></i> ${sessionScope.userLoged.login}</a></li>
+                                	<li><a><i class="fa fa-info"></i> ${sessionScope.userLoged.role}</a></li>
                                     <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
-                                    <li><a href="#"><i class="ti-settings"></i> Setting</a></li>
                                     <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
                                 </ul>
                             </div>

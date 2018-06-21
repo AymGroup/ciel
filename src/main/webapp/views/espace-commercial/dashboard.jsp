@@ -1,4 +1,6 @@
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="f" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,6 +49,7 @@
             <!-- Bread crumb -->
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
+                
                     <h3 class="text-primary">Dashboard</h3> </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
@@ -55,9 +58,19 @@
                     </ol>
                 </div>
             </div>
+            
+            
             <!-- End Bread crumb -->
             <!-- Container fluid  -->
            <div class="container-fluid">
+           
+           <div class="alert alert-info alert-dismissible fade show" role="alert">
+						 <strong>Welcome back ${sessionScope.userLoged.login} !</strong>
+						  	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						    	<span aria-hidden="true">&times;</span>
+						  	</button>
+					</div>
+					
                 <!-- Start Page Content -->
                 <div class="row">
                     <div class="col-md-3">
@@ -67,7 +80,7 @@
                                     <span><i class="fa fa-usd f-s-40 color-primary"></i></span>
                                 </div>
                                 <div class="media-body media-text-right">
-                                    <h2>568120</h2>
+                                    <h2>${totalReservation }</h2>
                                     <p class="m-b-0">Total Revenue</p>
                                 </div>
                             </div>
@@ -80,8 +93,8 @@
                                     <span><i class="fa fa-shopping-cart f-s-40 color-success"></i></span>
                                 </div>
                                 <div class="media-body media-text-right">
-                                    <h2>1178</h2>
-                                    <p class="m-b-0">Sales</p>
+                                    <h2>${reservationSize }</h2>
+                                    <p class="m-b-0">Réservations</p>
                                 </div>
                             </div>
                         </div>
@@ -90,11 +103,11 @@
                         <div class="card p-30">
                             <div class="media">
                                 <div class="media-left meida media-middle">
-                                    <span><i class="fa fa-archive f-s-40 color-warning"></i></span>
+                                    <span><i class="fa fa-car f-s-40 color-info"></i></span>
                                 </div>
                                 <div class="media-body media-text-right">
-                                    <h2>25</h2>
-                                    <p class="m-b-0">Stores</p>
+                                    <h2>${nbVehicules }</h2>
+                                    <p class="m-b-0">Véhicules en service</p>
                                 </div>
                             </div>
                         </div>
@@ -106,8 +119,8 @@
                                     <span><i class="fa fa-user f-s-40 color-danger"></i></span>
                                 </div>
                                 <div class="media-body media-text-right">
-                                    <h2>847</h2>
-                                    <p class="m-b-0">Customer</p>
+                                    <h2>${sizeClt }</h2>
+                                    <p class="m-b-0">Clients</p>
                                 </div>
                             </div>
                         </div>
@@ -129,58 +142,24 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Name</th>
-                                                <th>Product</th>
-                                                <th>quantity</th>
-                                                <th>Status</th>
+                                                <th>Date début réservation</th>
+                                                <th>Date fin réservation</th>
+                                                <th>Tarif Total</th>
+                                                <th>Client</th>
+                                                <th>Pack</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-
+										<c:forEach var="r" items="${reservations }">
                                             <tr>
-                                                <td>
-                                                    <div class="round-img">
-                                                        <a href=""><img src="images/avatar/4.jpg" alt=""></a>
-                                                    </div>
-                                                </td>
-                                                <td>John Abraham</td>
-                                                <td><span>iBook</span></td>
-                                                <td><span>456 pcs</span></td>
-                                                <td><span class="badge badge-success">Done</span></td>
+                                                <td> ${r.id }</td>
+                                                <td> ${r.dateResevation }</td>
+                                                <td> ${r.dateFinResevation }</td>
+                                                <td> ${r.tarifTotal }</td>
+                                                <td> ${r.client.nom } ${r.client.prenom }  </td>
+                                                <td> ${r.pack.libelle }   </td>                                               
                                             </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="round-img">
-                                                        <a href=""><img src="images/avatar/2.jpg" alt=""></a>
-                                                    </div>
-                                                </td>
-                                                <td>John Abraham</td>
-                                                <td><span>iPhone</span></td>
-                                                <td><span>456 pcs</span></td>
-                                                <td><span class="badge badge-success">Done</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="round-img">
-                                                        <a href=""><img src="images/avatar/3.jpg" alt=""></a>
-                                                    </div>
-                                                </td>
-                                                <td>John Abraham</td>
-                                                <td><span>iMac</span></td>
-                                                <td><span>456 pcs</span></td>
-                                                <td><span class="badge badge-warning">Pending</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="round-img">
-                                                        <a href=""><img src="images/avatar/4.jpg" alt=""></a>
-                                                    </div>
-                                                </td>
-                                                <td>John Abraham</td>
-                                                <td><span>iBook</span></td>
-                                                <td><span>456 pcs</span></td>
-                                                <td><span class="badge badge-success">Done</span></td>
-                                            </tr>
+                                        </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
@@ -191,7 +170,7 @@
 
 
                 <div class="row">
-					<div class="col-lg-8">
+					<div class="col-lg-12">
 						<div class="row">
 						<!-- /# column -->
 						<div class="col-lg-12">
@@ -204,12 +183,12 @@
 						</div>
 					</div>
                 </div>
-                
+                <!--  
                 <div class="row">
 					<div class="col-lg-12">
-						<div class="row">
+						<div class="row">-->
 						<!-- /# column -->
-						<div class="col-lg-6">
+						<!--<div class="col-lg-6">
 							<div class="card">
                                 <div class="card-title">
                                     <h4>Another Section </h4>
@@ -233,7 +212,7 @@
                             </div>
 						</div>
 					</div>
-                </div>
+                </div>-->
 
 
                 <!-- End PAge Content -->
