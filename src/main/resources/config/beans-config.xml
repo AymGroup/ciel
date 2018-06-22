@@ -12,6 +12,7 @@
 		<bean id="packDao" class="dao.PackDaoImpl"></bean>
 		<bean id="reservationDao" class="dao.ReservationDaoImpl"></bean>
 		<bean id="ligneReservationDao" class="dao.LigneReservationDaoImpl"></bean>
+		<bean id="messageDao" class="dao.MessageDaoImpl"></bean>
 		
 		<!-- Client - Injection -->
 		<bean id="clientServices" class="service.ClientServiceImpl">
@@ -82,10 +83,19 @@
 			<property name="ligneReservationSrv" ref="ligneReservationsServices"></property>
 		</bean>
 		
+		<!-- Dashboard - Injection -->
 		<bean id="dashboardController" class="web.DashboardController">
 			<property name="reservationSrv" ref="reservationServices"></property>
 			<property name="clientSrv" ref="clientServices"></property>
 			<property name="vehiculeSrv" ref="vehiculeService"></property>
+		</bean>
+		
+		<!-- Message - Injection -->
+		<bean id="messageService" class="service.MessageServiceImpl">
+			<property name="daoMessage" ref="messageDao"></property>
+		</bean>
+		<bean id="messageController" class="web.EmailController">
+			<property name="messageSrv" ref="messageService"></property>
 		</bean>
 		
 			

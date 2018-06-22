@@ -13,12 +13,15 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.request.WebRequest;
 
 import models.User;
+import service.IService;
 import service.UserServiceImpl;
 
 @Controller
 @SessionAttributes(names="userLoged")
 public class LoginController {
 	
+	private UserServiceImpl userSrv=new UserServiceImpl();
+
 	@RequestMapping(path="/login",method=RequestMethod.GET)
 	public String showLogin(Model model){
 		model.addAttribute("user", new User());
@@ -27,9 +30,9 @@ public class LoginController {
 	
 	@RequestMapping(path="/authentifier",method=RequestMethod.POST)
 	public String authentifier(Model model,User u){
-		//User userLoged=userSrv.CheckUser(u);
-		if(u!=null){
-			model.addAttribute("userLoged", u);
+		User userLoged=userSrv.CheckUser(u);
+		if(userLoged!=null){
+			model.addAttribute("userLoged", userLoged);
 			return "redirect:/dashboard/show";
 		}
 		return "redirect:/login";

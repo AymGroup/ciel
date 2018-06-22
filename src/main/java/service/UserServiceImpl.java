@@ -7,12 +7,13 @@ import models.User;
 
 public class UserServiceImpl implements IService<User> {
 
-	private UserDaoImpl daoUser;
 	
+	private UserDaoImpl daoUser=new UserDaoImpl();
+	
+
 	@Override
-	public User save(User o) {
-		// TODO Auto-generated method stub
-		return null;
+	public User save(User u) {
+		return daoUser.save(u);
 	}
 	
 	public User CheckUser(User u){

@@ -82,8 +82,18 @@
                             </ul>
 						</li>
                         
-                        <c:url value="/pack/nouveau" var="url_pack"></c:url> 
+                        
                         <li class="nav-label">EXTRA</li>
+						<c:url value="/email/show" var="url_mail"></c:url> 
+						<c:url value="/email/showAll" var="url_mails_list"></c:url> 
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-envelope"></i><span class="hide-menu">Email</span></a>
+                            <ul aria-expanded="false" class="collapse">
+                               <li><a href="${url_mail }">Nouveau email</a></li>
+                                <li><a href="${url_mails_list }">Liste des emails</a></li>
+                            </ul>
+                        </li>
+                        
+                        <c:url value="/pack/nouveau" var="url_pack"></c:url> 
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cog"></i><span class="hide-menu">Pack</span></a>
                             <ul aria-expanded="false" class="collapse">
                                <li><a href="${url_pack }">Nouveau pack</a></li>

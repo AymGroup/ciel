@@ -22,7 +22,7 @@ public class UserDaoImpl implements IDao<User> {
 
 		Criteria cr = s.createCriteria(User.class); 
 		cr.add(Restrictions.eq("login",u.getLogin()))
-		.add(Restrictions.eqOrIsNull("password", u.getPassword()));
+		.add(Restrictions.eq("password", u.getPassword()));
 		User user=(User) cr.uniqueResult();
 		
 		if(user!=null){
@@ -80,7 +80,6 @@ public class UserDaoImpl implements IDao<User> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-	
+
 
 }
