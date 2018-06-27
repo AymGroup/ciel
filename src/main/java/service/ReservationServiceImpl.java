@@ -2,11 +2,14 @@ package service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import dao.IDao;
 import models.Reservation;
 
 public class ReservationServiceImpl implements IService<Reservation> {
 
+	@Autowired
 	private IDao<Reservation> daoReservation;
 	
 	public IDao<Reservation> getDaoReservation() {

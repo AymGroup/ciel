@@ -17,12 +17,13 @@
                         </li>
                         <!-- RESERVATION MENU -->
                         <c:url value="/reservation/nouveau" var="url_reservation"></c:url>
+                        <c:url value="/reservation/getReservations" var="url_get_reservations"></c:url>
                         <li class="nav-label">Main Menu</li>
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-paperclip"></i><span class="hide-menu">Réservations</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="${url_reservation }">Nouvelle réservation</a></li>
                                 <li><a href="#">Mon planning</a></li>
-                                <li><a href="#">Liste des réservations</a></li>
+                                <li><a href="${url_get_reservations }">Liste des réservations</a></li>
                                 <li><a href="#">Liste des factures</a></li>
                                 <li><a href="#">Liste des impayés</a></li>
                             </ul>

@@ -16,7 +16,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import models.Categorie;
 import models.Client;
@@ -130,7 +134,7 @@ public class ReservationController {
 		reservationDetail.add(reservationSrv.getById(idReservation));
 		ModelAndView mv=new ModelAndView("espace-commercial/nouveau_ligne_reservation","ligne_reservation",new LigneReservation());
 		mv.addObject("reservationDetail",reservationDetail);
-		mv.addObject("vehicules",vehiculeSrv.selectAll("onService",""));
+		mv.addObject("vehicules",vehiculeSrv.selectAll("offService",""));
 		return mv;
 	}
 	
@@ -213,6 +217,31 @@ public class ReservationController {
 		mv.addObject("vehiculesOffService",vehiculesOffService);
 		return mv;
 		
+	}
+	
+	@RequestMapping(path="/getReservations",method=RequestMethod.GET)
+	public String getAllReservations(Model model){
+		List<Reservation> reservations=reservationSrv.selectAll();
+		model.addAttribute("reservations", reservations);
+		return "espace-commercial/list_reservations";
+	}
+	
+	@RequestMapping(path="/get")
+	@ResponseBody
+	public String getDetailsRéservation(@RequestParam(name="id")String id,Model model){
+		
+		List<LigneReservation> ligneReservations=ligneReservationSrv.selectAll(null,String.valueOf(id));
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(ligneReservations);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return json;
 	}
 	
 }
